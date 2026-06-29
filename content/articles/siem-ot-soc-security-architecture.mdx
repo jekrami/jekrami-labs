@@ -1,0 +1,139 @@
+---
+title: "SIEM Platforms and Security Architecture for Operational Technology (OT) Security Operations Centers"
+summary: "How modern OT SOCs combine industrial security platforms with SIEM correlation, and which platform combinations work across enterprise and mid-market deployments."
+date: 2026-06-29
+readingTime: 8
+tags: ["OT Security", "SIEM", "SOC", "Cybersecurity"]
+---
+
+## Executive Summary
+
+When designing a Security Operations Center (SOC) for industrial environments, it is important to recognize that Operational Technology (OT) cybersecurity differs significantly from traditional Information Technology (IT) cybersecurity.
+
+Unlike conventional IT environments, industrial infrastructures include specialized assets such as Programmable Logic Controllers (PLCs), Supervisory Control and Data Acquisition (SCADA) systems, Human-Machine Interfaces (HMIs), industrial sensors, and control networks. These systems require dedicated visibility and monitoring capabilities that standard IT security platforms cannot provide independently.
+
+Consequently, modern OT SOC architectures typically combine specialized OT security platforms with a Security Information and Event Management (SIEM) solution.
+
+The SIEM serves as the central correlation and analytics platform, while OT security platforms provide industrial asset visibility, protocol analysis, and process-aware threat detection.
+
+## Typical OT SOC Architecture
+
+A standard OT SOC architecture consists of the following layers:
+
+1. Industrial assets and control systems
+2. OT monitoring and visibility platform
+3. SIEM platform
+4. Advanced analytics and AI capabilities
+5. Security operations team
+
+The data flow is typically represented as follows:
+
+```text
+Industrial Devices (PLCs, SCADA, HMIs, Sensors)
+                    ↓
+         OT Security Platform
+                    ↓
+              SIEM Platform
+                    ↓
+      SOC Analysts and AI Analytics
+```
+
+## Leading OT Security Platforms
+
+OT security platforms are specifically designed to monitor industrial environments without disrupting critical operations. These solutions provide capabilities such as:
+
+- Passive asset discovery
+- Industrial protocol analysis
+- Network traffic monitoring
+- Process anomaly detection
+- Device fingerprinting
+- Threat intelligence for industrial systems
+
+Current market leaders include:
+
+- Dragos
+- Claroty
+- Nozomi Networks
+- Microsoft Defender for IoT
+- Armis
+- Tenable OT Security
+
+These platforms understand industrial protocols such as Modbus, DNP3, PROFINET, EtherNet/IP, OPC UA, and IEC 60870-5-104.
+
+## Leading SIEM Platforms Used in OT SOC Environments
+
+### Large Enterprises and Critical Infrastructure
+
+The most widely deployed SIEM solutions in industrial environments include:
+
+- Splunk Enterprise Security
+- Microsoft Sentinel
+- IBM QRadar
+
+These platforms are commonly used by organizations operating critical infrastructure, including energy, oil and gas, manufacturing, transportation, and utilities.
+
+Their primary functions include:
+
+- Security event aggregation
+- Cross-domain correlation between IT and OT events
+- Incident investigation
+- Compliance reporting
+- Threat hunting
+- Workflow automation
+
+### Mid-Market and Custom OT SOC Deployments
+
+Organizations seeking greater flexibility or lower total cost of ownership increasingly adopt:
+
+- Elastic Security
+- Wazuh
+- Grafana-based observability platforms
+
+These solutions are particularly attractive for organizations developing custom analytics, AI-driven detections, and specialized industrial monitoring capabilities.
+
+## The Role of Grafana in OT SOC Environments
+
+Grafana is widely used within industrial organizations due to its strong visualization capabilities and compatibility with operational data sources.
+
+However, Grafana should not be considered a SIEM platform.
+
+Instead, Grafana typically serves as the visualization and dashboard layer, providing:
+
+- Real-time operational dashboards
+- Equipment health monitoring
+- Process metrics visualization
+- Executive reporting
+- Security posture overviews
+
+Grafana is often deployed alongside SIEM platforms rather than replacing them.
+
+## Current Market Trends
+
+Modern OT SOC implementations rarely rely on a single security platform.
+
+Typical deployments include combinations such as:
+
+- Dragos with Splunk Enterprise Security
+- Nozomi Networks with Microsoft Sentinel
+- Claroty with IBM QRadar
+- Microsoft Defender for IoT with Microsoft Sentinel
+- Nozomi Networks with Elastic Security
+
+This approach enables organizations to combine specialized OT visibility with enterprise-scale security analytics.
+
+## Strategic Recommendation
+
+Organizations planning an OT SOC should focus on selecting an architecture rather than a single product.
+
+The recommended approach is to implement:
+
+- A dedicated OT security platform for industrial visibility
+- A SIEM platform for event correlation and incident management
+- AI-based analytics for advanced anomaly detection
+- A flexible dashboarding solution for operational visibility
+
+For organizations seeking an open and extensible architecture, a combination of Elastic Security, AI analytics, and Grafana provides a cost-effective and highly customizable alternative.
+
+For organizations with existing enterprise SIEM investments, OT security platforms can be integrated into current Splunk, Microsoft Sentinel, or IBM QRadar environments.
+
+Ultimately, the most effective OT SOC solutions are platform-agnostic and focus on delivering actionable visibility across both operational and information technology domains.

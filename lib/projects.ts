@@ -75,6 +75,46 @@ export const projects: readonly Project[] = [
     domains: ["Public Sector", "Sustainability", "Edge AI"],
     year: 2026,
   },
+  {
+    slug: "forensic-intelligence-engine",
+    name: "Forensic Intelligence Engine",
+    tagline: "Automated Digital Forensics",
+    summary:
+      "An evidence analysis system that ingests large heterogeneous corpora and produces structured forensic intelligence reports with minimal manual review.",
+    description:
+      "The Forensic Intelligence Engine processes documents, images, spreadsheets, and multimedia at scale — extracting entities, metadata, and visual signals across dozens of formats. Configurable filtering, duplicate detection, and multilingual OCR let investigators concentrate on pattern and relationship analysis rather than file triage.",
+    status: "in-development",
+    technologies: [
+      "Python",
+      "FastAPI",
+      "Computer Vision",
+      "OCR",
+      "Multimodal AI",
+      "PostgreSQL",
+    ],
+    domains: ["Digital Forensics", "Enterprise AI", "Financial Crime"],
+    year: 2026,
+  },
+  {
+    slug: "domain-adaptive-legal-ai",
+    name: "Enterprise Domain-Adaptive Legal AI Platform",
+    tagline: "On-Premise Legal AI Ecosystem",
+    summary:
+      "A fully on-premise platform for understanding, generating, and comparing legal documents — domain-independent at the core, with swappable knowledge packs for regulated industries.",
+    description:
+      "This platform is built as an extensible legal AI ecosystem that runs entirely on customer infrastructure — not a single-purpose contract analyzer. The core engine handles document understanding, generation, comparison, and lifecycle management once; knowledge packs plug in without architectural changes. The first pack targets Iranian Oil & Gas contracts and regulations, with banking, insurance, construction, labor law, and procurement planned on the same foundation.",
+    status: "in-development",
+    technologies: [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "pgvector",
+      "LangGraph",
+      "On-Premise LLM",
+    ],
+    domains: ["Legal", "Enterprise AI", "Oil & Gas"],
+    year: 2026,
+  },
 ] as const;
 
 export function getProject(slug: string): Project | undefined {
