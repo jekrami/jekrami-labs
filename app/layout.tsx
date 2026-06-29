@@ -1,0 +1,118 @@
+import type { Metadata, Viewport } from "next";
+import { Inter, Manrope } from "next/font/google";
+
+import { site } from "@/lib/site";
+import { paletteNoFlashScript } from "@/lib/palettes";
+import { Navigation } from "@/components/layout/navigation";
+import { Footer } from "@/components/layout/footer";
+import "./globals.css";
+
+/**
+ * Self-hosted fonts via next/font — keeps Lighthouse performance high
+ * because the woff2 binaries ship with the build, no third-party CDN.
+ */
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-manrope",
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.name} — ${site.tagline}`,
+    template: `%s · ${site.name}`,
+  },
+  description: site.description,
+  applicationName: site.name,
+  authors: [{ name: site.name }],
+  generator: "Next.js",
+  keywords: [
+    "Enterprise AI",
+    "Cybersecurity",
+    "Intelligent Systems",
+    "AI Governance",
+    "RAG",
+    "Agentic AI",
+    "JEKRAMI Labs",
+  ],
+  category: "technology",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: site.url,
+    siteName: site.name,
+    title: `${site.name} — ${site.tagline}`,
+    description: site.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} — ${site.tagline}`,
+    description: site.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+  width: "device-width",
+  initialScale: 1,
+  colorScheme: "light",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+      className={`${inter.variable} ${manrope.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{ __html: paletteNoFlashScript() }}
+        />
+      </head>
+      <body className="bg-[var(--color-background)] text-[var(--color-foreground)] antialiased">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[60] focus:rounded-md focus:bg-[var(--color-primary)] focus:px-4 focus:py-2 focus:text-sm focus:text-[var(--color-primary-foreground)]"
+        >
+          Skip to main content
+        </a>
+        <Navigation />
+        <main id="main" className="min-h-[60vh]">
+          {children}
+        </main>
+        <Footer />
+      </body>
+    </html>
+  );
+}

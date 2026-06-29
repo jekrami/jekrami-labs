@@ -1,0 +1,41 @@
+---
+title: "Citation-Grounded RAG Is an Indexing Problem"
+summary: "Treating retrieval-augmented generation as a retrieval problem first has reshaped how we design enterprise legal AI."
+date: 2026-03-04
+readingTime: 7
+tags: ["RAG", "Enterprise Legal AI", "Retrieval"]
+---
+
+A surprising amount of what fails in enterprise RAG systems is not the
+language model. It is the index.
+
+We learned this the hard way while building Ravin, our contract
+intelligence platform. The first version relied on the obvious approach:
+chunk the documents, embed the chunks, retrieve the top-k. The model
+fluently answered questions. It also hallucinated clauses that didn't
+exist, missed clauses that did, and refused to commit to a citation.
+
+## What we changed
+
+Three things. None of them were prompt engineering.
+
+1. **We treat documents as structured objects, not text streams.**
+   A contract has a clause hierarchy, defined terms, signatures, and
+   schedules. We preserve that structure in the document model. The
+   retriever becomes clause-aware.
+2. **We dual-index everything.** Once for semantic similarity, once for
+   exact lexical match. The model receives both signals and decides which
+   to trust.
+3. **We cite by reference, not by location.** A citation must point at
+   a stable identifier — clause number, defined term, exhibit — that
+   survives a re-render of the source document.
+
+## What this buys
+
+The model now answers questions it could not before. More importantly,
+it answers them in a form a counsel can stand behind. Every response
+carries a citation the operator can open in the source PDF.
+
+This is unglamorous work. There is no headline metric. There is,
+however, a single lawyer in a meeting who stops interrupting the demo
+to check the citation — and that is the metric we care about.

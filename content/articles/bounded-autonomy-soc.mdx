@@ -1,0 +1,47 @@
+---
+title: "Designing Bounded Autonomy for SOC Analysts"
+summary: "What we learned shipping an AI co-pilot into the rooms where incidents are worked."
+date: 2026-02-18
+readingTime: 8
+tags: ["Cybersecurity AI", "Agentic AI", "Operations"]
+---
+
+A security operations centre is one of the last rooms in an enterprise
+where text on a screen becomes a phone call to the regulator. The cost
+of a wrong decision is not theoretical. It is published.
+
+When we started working on AO-SOC, the temptation was to build an
+agent that could "handle" an alert end-to-end. We resisted.
+
+## What we built instead
+
+AO-SOC is a co-pilot. It triages, clusters, and investigates. It does
+not close incidents. It does not execute containment actions without a
+human signature. Every action it suggests is reviewable before it
+runs, and every conclusion it reaches is auditable after the fact.
+
+This is what we mean by **bounded autonomy**. The agent has a budget
+of what it may do without asking, a ledger of what it did, and a way
+for the operator to override it at any point — not just approve it
+before, but interrupt it during.
+
+## Three design rules we now apply
+
+1. **The agent is the assistant, not the analyst.** When in doubt, it
+   asks. It never assumes the absence of a response is consent.
+2. **The agent's state is inspectable.** An incident has a timeline of
+   agent decisions, with the data that drove each decision. This is
+   what the post-mortem reads.
+3. **The agent's failure modes are documented.** Not "best effort"
+   descriptions. Explicit failure modes with operator-facing runbooks.
+
+## Why this matters
+
+The threat landscape is asymmetric. The attackers iterate. The
+defenders cannot afford an AI that iterates in a direction they did
+not approve. The job of an agentic SOC system is to make the SOC
+faster, not to make it weirder.
+
+We measure our success by the time a senior analyst gets back. Not by
+the alerts the agent suppressed. Not by the dashboards it filled. By
+the calm in the room when it works.

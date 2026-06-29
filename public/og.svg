@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#0B2545" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="#FFFFFF"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <g transform="translate(96, 96)">
+    <rect width="56" height="56" rx="14" fill="#0B2545"/>
+    <path d="M18 42V14h18c13 0 21 8 21 19s-8 19-21 19H26v9h-8zm8-21h9c6 0 10-3 10-9s-4-9-10-9h-9v18Z" fill="#ffffff" transform="scale(0.6) translate(-2, -2)"/>
+    <circle cx="41" cy="20" r="4" fill="#0077B6"/>
+  </g>
+  <text x="96" y="280" font-family="Manrope, Inter, sans-serif" font-weight="600" font-size="84" fill="#0B2545" letter-spacing="-3">
+    Engineering Trustworthy
+  </text>
+  <text x="96" y="376" font-family="Manrope, Inter, sans-serif" font-weight="600" font-size="84" fill="#0B2545" letter-spacing="-3">
+    AI Systems.
+  </text>
+  <text x="96" y="448" font-family="Inter, sans-serif" font-weight="500" font-size="26" fill="#6C757D">
+    Enterprise AI · Cybersecurity · Intelligent Systems
+  </text>
+  <line x1="96" y1="510" x2="180" y2="510" stroke="#0077B6" stroke-width="4"/>
+  <text x="96" y="548" font-family="Inter, sans-serif" font-weight="500" font-size="20" fill="#0B2545">
+    JEKRAMI Labs
+  </text>
+</svg>

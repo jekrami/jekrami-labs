@@ -1,0 +1,56 @@
+---
+title: "Governance That Ships With the System"
+summary: "Why enterprise AI governance fails when it is written as a policy paper instead of an operational artifact."
+date: 2026-04-12
+readingTime: 6
+tags: ["AI Governance", "Enterprise AI", "Architecture"]
+---
+
+Most enterprise AI governance reads like a beautifully-typeset policy manual.
+It is written for an audit committee. It is reviewed by a legal team.
+It is then quietly ignored by the engineering team the moment a release
+deadline moves.
+
+We have learned, sometimes painfully, that the only governance that
+matters is the governance that ships with the system.
+
+## What governance actually looks like, in production
+
+In the systems we operate, governance is not a document. It is a set of
+invariants enforced by the runtime. Concretely, that means:
+
+- **Every model decision is logged with its inputs.** Not "metadata about
+  the decision" — the actual embeddings, retrieved documents, and the
+  exact prompt used. Enough to reproduce, not enough to leak.
+- **Every action taken by an agent is reviewable.** A notification
+  arrives before action executes, and the action carries an explanation
+  the operator can audit.
+- **Every data flow has a documented owner.** If the legal team asks
+  "where did this answer come from?", the answer is a one-line query
+  against the system, not a Slack thread.
+
+We have stopped writing governance that lives outside the engineering
+process. Governance belongs in the same commit history as the model.
+
+## Theatre is expensive
+
+Governance theatre creates a false sense of safety. It also creates a
+real sense of friction: engineers route around it, audit findings pile
+up, and the next incident becomes the moment the policy paper is opened
+for the first time.
+
+The alternative is unglamorous. It is a logging pipeline. It is a
+review queue. It is a structured incident report template. It is unit
+tests for retrieval, not just for the model call.
+
+## What we look for in a customer's environment
+
+Before we sign on, we ask to see three things:
+
+1. Where the last ten model calls landed in the audit log.
+2. How an operator escalates a model output they disagree with.
+3. The system that tells the legal team what data was used to answer.
+
+If those three things do not exist, our work begins by building them.
+It is not the most exciting engagement a sales team can describe, but
+it is the engagement that holds up two years later.
