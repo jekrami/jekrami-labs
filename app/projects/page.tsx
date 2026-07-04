@@ -5,7 +5,7 @@ import { ProjectsContent } from "./projects-content";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "The systems JEKRAMI Labs is building — enterprise legal AI, AI security operations, and passive urban air intelligence.",
+    "The systems Ekrami Labs is building — enterprise legal AI, AI security operations, and passive urban air intelligence.",
 };
 
 export default function ProjectsPage() {

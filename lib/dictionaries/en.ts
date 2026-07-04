@@ -33,7 +33,7 @@ export const en = {
     words: ["Engineering", "Trustworthy", "AI", "Systems."],
     subline: [
       {
-        text: "JEKRAMI Labs is an independent AI Research & Engineering Studio. We design intelligent systems for enterprises that are serious about ",
+        text: "Ekrami Labs is an independent AI Research & Engineering Studio. We design intelligent systems for enterprises that are serious about ",
       },
       { text: "uptime", highlight: true },
       { text: ", " },
@@ -64,9 +64,9 @@ export const en = {
     eyebrow: "About",
     title: "The studio behind the work.",
     paragraphs: [
-      "JEKRAMI Labs is the work of an engineer who spent thirty years inside the systems enterprises actually run — not the systems they demo. Oil & gas platforms. Hospital networks. Manufacturing lines. Telecommunications core. The unglamorous places where technology either keeps the operation running or becomes the cause of the incident report.",
+      "Ekrami Labs is the work of an engineer who spent thirty years inside the systems enterprises actually run — not the systems they demo. Oil & gas platforms. Hospital networks. Manufacturing lines. Telecommunications core. The unglamorous places where technology either keeps the operation running or becomes the cause of the incident report.",
       "That career produces a particular kind of instinct. It treats AI the way a control-room engineer treats a new instrument — with curiosity, caution, and the understanding that a model which cannot explain itself is a liability rather than an asset.",
-      "JEKRAMI Labs exists to build enterprise AI for environments where auditability is not optional, where downtime is a board conversation, and where the contract is as serious as the model. The studio is independent on purpose. Independence is what lets the work stay loyal to engineering rather than to a product narrative.",
+      "Ekrami Labs exists to build enterprise AI for environments where auditability is not optional, where downtime is a board conversation, and where the contract is as serious as the model. The studio is independent on purpose. Independence is what lets the work stay loyal to engineering rather than to a product narrative.",
       "Today the studio pairs that institutional experience with current research in retrieval, agentic systems, and operational AI. The output is small, deliberate, and built to last a quarter — not a launch cycle.",
     ],
     readFullStory: "Read the full story",
@@ -266,7 +266,7 @@ export const en = {
         "An independent AI Research & Engineering Studio, built on three decades inside the rooms where enterprise IT is actually operated.",
     },
     proseIntro: [
-      "JEKRAMI Labs is the work of an engineer who spent thirty years inside the systems enterprises actually run — not the systems they demo. Oil & gas platforms. Hospital networks. Manufacturing lines. Telecommunications core. The unglamorous places where technology either keeps the operation running or becomes the cause of the incident report.",
+      "Ekrami Labs is the work of an engineer who spent thirty years inside the systems enterprises actually run — not the systems they demo. Oil & gas platforms. Hospital networks. Manufacturing lines. Telecommunications core. The unglamorous places where technology either keeps the operation running or becomes the cause of the incident report.",
       "That career produces a particular kind of instinct. It treats AI the way a control-room engineer treats a new instrument — with curiosity, caution, and the understanding that a model which cannot explain itself is a liability rather than an asset.",
     ],
     whyIndependenceTitle: "Why independence",

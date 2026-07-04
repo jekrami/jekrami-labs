@@ -2,7 +2,7 @@
   "name": "jekrami-labs",
   "version": "0.1.0",
   "private": true,
-  "description": "JEKRAMI Labs — Engineering Trustworthy AI Systems",
+  "description": "Ekrami Labs — Engineering Trustworthy AI Systems",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

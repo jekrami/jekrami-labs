@@ -1,13 +1,29 @@
-# JEKRAMI Labs
+# Ekrami Labs
 
-The official website of **JEKRAMI Labs** — an independent AI Research &
+The official website of **Ekrami Labs** — an independent AI Research &
 Engineering Studio designing enterprise-grade intelligent systems.
 
 > Engineering Trustworthy AI Systems.
 
 Built with Next.js 16, React 19, TailwindCSS 4, GSAP, three.js, Framer Motion, and MDX.
 
+**Bilingual:** English (default, SSR) and Farsi (`فناوری‌های پیشرو اکرامی`), switched client-side with no-flash locale persistence.
+
 ---
+
+## Brand & assets
+
+| Asset | Location | Notes |
+| ----- | -------- | ----- |
+| Site logo (source) | `logo.png` | Master file; bundled via `components/layout/logo.tsx` |
+| Static logo | `public/logo.png` | Apple touch icon and direct `/logo.png` access |
+| Favicon | `public/favicon.svg` | Browser tab icon |
+| OG fallback | `public/og.svg` | Static social preview asset |
+
+The header and footer render the logo through `components/layout/logo.tsx`, which imports `logo.png` at build time so updates are cache-busted automatically.
+
+To replace the logo: edit `logo.png` at the repo root, copy it to `public/logo.png`, and restart the dev server.
+
 
 ## Stack
 
@@ -18,7 +34,8 @@ Built with Next.js 16, React 19, TailwindCSS 4, GSAP, three.js, Framer Motion, a
 - **Icons:** Lucide
 - **Motion:** GSAP + ScrollTrigger (hero choreography, scroll-drawn timeline rail, page transitions) and Framer Motion (small in-view reveals); every path respects `prefers-reduced-motion`
 - **3D:** three.js hero "system map" — a palette-aware lattice with telemetry pulses; renders a static frame under reduced motion and falls back to the 2D grid without WebGL
-- **Fonts:** Inter (body) + Manrope (headings), self-hosted via `next/font/google`
+- **Fonts:** Inter (body) + Manrope (headings) for English; Vazirmatn for Farsi — self-hosted via `next/font/google`
+- **i18n:** English + Farsi dictionaries (`lib/dictionaries/en.ts`, `lib/dictionaries/fa.ts`); locale persisted in `localStorage`
 - **Content:** MDX via `next-mdx-remote/rsc` with frontmatter parsed by `gray-matter`
 - **Deploy target:** Vercel (works on any Node-runtime host)
 
@@ -59,7 +76,7 @@ app/
 └── contact/page.tsx
 
 components/
-├── layout/                 # Navigation, Footer
+├── layout/                 # Navigation, Footer, Logo
 ├── sections/               # Hero, Projects, Research, About, Timeline, Philosophy, Contact
 ├── motion/                 # FadeIn, SlideIn, Parallax
 ├── ui/                     # Button, Container, Card, Badge, InlineLink, PageHeader
@@ -74,6 +91,8 @@ content/
 lib/
 ├── utils.ts                # cn() class-name helper
 ├── site.ts                 # Brand constants + navigation entries
+├── i18n.ts                 # Locale plumbing + no-flash script
+├── dictionaries/           # en.ts + fa.ts copy dictionaries
 ├── projects.ts             # Project metadata (typed)
 ├── research.ts             # Research area metadata (typed)
 ├── timeline.ts             # Timeline entries
@@ -175,4 +194,4 @@ npm run start
 
 ## Licence
 
-© JEKRAMI Labs. All rights reserved.
+© Ekrami Labs. All rights reserved.

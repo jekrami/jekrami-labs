@@ -4,12 +4,12 @@
  * audited and updated without touching presentation components.
  */
 export const site = {
-  name: "JEKRAMI Labs",
-  shortName: "JEKRAMI Labs",
+  name: "Ekrami Labs",
+  shortName: "Ekrami Labs",
   tagline: "Engineering Trustworthy AI Systems",
   subtitle: "Enterprise AI · Cybersecurity · Intelligent Systems",
   description:
-    "JEKRAMI Labs is an independent AI Research & Engineering Studio designing enterprise-grade intelligent systems with rigor, integrity, and a deep respect for the systems they touch.",
+    "Ekrami Labs is an independent AI Research & Engineering Studio designing enterprise-grade intelligent systems with rigor, integrity, and a deep respect for the systems they touch.",
   url: "https://jekrami.ir",
   locale: "en-US",
   email: "ekrami@gmail.com",

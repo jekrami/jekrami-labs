@@ -9,6 +9,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { navigation, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
+import { Logo } from "@/components/layout/logo";
 import { PaletteSwitcher } from "@/components/palette-switcher";
 import { LanguageToggle } from "@/components/language-toggle";
 import { useDictionary } from "@/components/locale-provider";
@@ -79,11 +80,10 @@ export function Navigation() {
         <div className="flex h-16 items-center justify-between md:h-20">
           <Link
             href="/"
-            className="flex items-center gap-2 text-sm font-semibold tracking-tight text-[var(--color-primary)]"
+            className="inline-flex shrink-0 items-center"
             aria-label={`${site.name} — Home`}
           >
-            <LogoMark className="size-7" />
-            <span className="text-base font-[var(--font-heading)]">{site.shortName}</span>
+            <Logo priority className="h-10 md:h-11" />
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
@@ -203,23 +203,4 @@ export function Navigation() {
 function isActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
-}
-
-function LogoMark({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 28 28"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden
-    >
-      <rect width="28" height="28" rx="7" fill="#0B2545" />
-      <path
-        d="M9 19V9h3.6c2.7 0 4.2 1.5 4.2 3.9 0 2.4-1.5 3.9-4.2 3.9H11v2.2H9Zm2-4h1.4c1.2 0 1.9-.7 1.9-2.1 0-1.4-.7-2.1-1.9-2.1H11V15Z"
-        fill="white"
-      />
-      <circle cx="20.5" cy="11.5" r="1.5" fill="#0077B6" />
-    </svg>
-  );
 }

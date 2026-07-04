@@ -5,6 +5,7 @@ import { Linkedin, Github, Mail, FileDown } from "lucide-react";
 
 import { navigation, site } from "@/lib/site";
 import { Container } from "@/components/ui/container";
+import { Logo } from "@/components/layout/logo";
 import { useLocale } from "@/components/locale-provider";
 
 const navKeyByHref = {
@@ -45,9 +46,9 @@ export function Footer() {
       <Container>
         <div className="grid gap-12 py-16 md:grid-cols-[1.5fr_1fr_1fr] md:gap-16 md:py-20">
           <div className="max-w-md">
-            <p className="text-base font-[var(--font-heading)] font-semibold text-[var(--color-primary)]">
-              {site.name}
-            </p>
+            <Link href="/" aria-label={`${site.name} — Home`}>
+              <Logo className="h-14" />
+            </Link>
             <p className="mt-3 text-sm text-[var(--color-muted-foreground)]">
               {dict.footer.tagline}.
             </p>

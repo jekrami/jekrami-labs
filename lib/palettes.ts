@@ -13,7 +13,7 @@ export const palettes = [
   {
     id: "studio",
     label: "Studio",
-    description: "The JEKRAMI Labs brand — navy on white.",
+    description: "The Ekrami Labs brand — navy on white.",
     swatch: ["#0b2545", "#0077b6", "#ffffff"],
   },
   {

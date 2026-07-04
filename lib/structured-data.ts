@@ -3,7 +3,7 @@ import { site } from "@/lib/site";
 /**
  * JSON-LD graph injected once in the root layout `<head>`. Kept separate
  * from visible copy: it exists purely so search engines can resolve
- * "Jafar Ekrami" to this site and to the JEKRAMI Labs organisation he
+ * "Jafar Ekrami" to this site and to the Ekrami Labs organisation he
  * founded, without changing the studio-branded tone of the rendered page.
  */
 export function structuredData() {

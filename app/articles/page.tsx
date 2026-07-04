@@ -6,7 +6,7 @@ import { ArticlesContent } from "./articles-content";
 export const metadata: Metadata = {
   title: "Articles",
   description:
-    "Research notes from JEKRAMI Labs — governance, retrieval, agentic systems, and the practical work of building enterprise AI.",
+    "Research notes from Ekrami Labs — governance, retrieval, agentic systems, and the practical work of building enterprise AI.",
 };
 
 export default async function ArticlesPage() {

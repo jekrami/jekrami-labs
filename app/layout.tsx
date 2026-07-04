@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     "AI Governance",
     "RAG",
     "Agentic AI",
-    "JEKRAMI Labs",
+    "Ekrami Labs",
   ],
   category: "technology",
   alternates: {
@@ -83,6 +83,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/logo.png", type: "image/png" }],
   },
 };
 

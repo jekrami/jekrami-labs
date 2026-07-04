@@ -11,23 +11,28 @@ const dictionaries: Record<Locale, Dictionary> = { en, fa };
 interface LocaleContextValue {
   locale: Locale;
   dict: Dictionary;
+  hydrated: boolean;
   setLocale: (locale: Locale) => void;
 }
 
 const LocaleContext = React.createContext<LocaleContextValue | null>(null);
 
 /**
- * Client-side locale state, mirroring the palette system: the no-flash
- * script has already stamped data-locale/lang/dir on <html> before
- * hydration, so the lazy initializer just reads it back. English is the
- * prerendered default; Farsi swaps in after hydration.
+ * Client-side locale state. English is always used for the first render so
+ * SSR and hydration agree; the no-flash script may stamp fa on <html> for
+ * RTL/CSS, then we sync the real choice after mount.
  */
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = React.useState<Locale>(() => {
-    if (typeof document === "undefined") return defaultLocale;
+  const [locale, setLocaleState] = React.useState<Locale>(defaultLocale);
+  const [hydrated, setHydrated] = React.useState(false);
+
+  React.useEffect(() => {
     const current = document.documentElement.getAttribute("data-locale");
-    return isLocale(current) ? current : defaultLocale;
-  });
+    if (isLocale(current)) {
+      setLocaleState(current);
+    }
+    setHydrated(true);
+  }, []);
 
   const setLocale = React.useCallback((next: Locale) => {
     setLocaleState(next);
@@ -38,11 +43,6 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Keep <html> in sync with the locale state. This runs after hydration,
-  // which matters: React 19 reconciles root-element attributes during
-  // hydration and strips anything the layout JSX didn't render — including
-  // what the no-flash script stamped. Re-asserting here restores
-  // data-locale/lang/dir after that pass and on every locale change.
   React.useEffect(() => {
     const root = document.documentElement;
     root.setAttribute("data-locale", locale);
@@ -51,8 +51,13 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
   }, [locale]);
 
   const value = React.useMemo<LocaleContextValue>(
-    () => ({ locale, dict: dictionaries[locale], setLocale }),
-    [locale, setLocale],
+    () => ({
+      locale: hydrated ? locale : defaultLocale,
+      dict: hydrated ? dictionaries[locale] : dictionaries[defaultLocale],
+      hydrated,
+      setLocale,
+    }),
+    [hydrated, locale, setLocale],
   );
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
