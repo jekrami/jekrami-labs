@@ -5,18 +5,19 @@ Engineering Studio designing enterprise-grade intelligent systems.
 
 > Engineering Trustworthy AI Systems.
 
-Built with Next.js 15, React 19, TailwindCSS 4, Framer Motion, and MDX.
+Built with Next.js 16, React 19, TailwindCSS 4, GSAP, three.js, Framer Motion, and MDX.
 
 ---
 
 ## Stack
 
-- **Framework:** Next.js 15 (App Router, Server Components)
+- **Framework:** Next.js 16 (App Router, Server Components, Turbopack)
 - **Language:** TypeScript (strict mode)
 - **Styling:** Tailwind CSS 4 with CSS-first theme tokens
-- **UI primitives:** Shadcn-style on Radix (`@radix-ui/react-slot`)
+- **UI primitives:** Shadcn-style on Radix (`@radix-ui/react-slot`), cmdk command palette
 - **Icons:** Lucide
-- **Motion:** Framer Motion (subtle fade, slide, parallax; respects `prefers-reduced-motion`)
+- **Motion:** GSAP + ScrollTrigger (hero choreography, scroll-drawn timeline rail, page transitions) and Framer Motion (small in-view reveals); every path respects `prefers-reduced-motion`
+- **3D:** three.js hero "system map" — a palette-aware lattice with telemetry pulses; renders a static frame under reduced motion and falls back to the 2D grid without WebGL
 - **Fonts:** Inter (body) + Manrope (headings), self-hosted via `next/font/google`
 - **Content:** MDX via `next-mdx-remote/rsc` with frontmatter parsed by `gray-matter`
 - **Deploy target:** Vercel (works on any Node-runtime host)

@@ -10,18 +10,19 @@ export const site = {
   subtitle: "Enterprise AI · Cybersecurity · Intelligent Systems",
   description:
     "JEKRAMI Labs is an independent AI Research & Engineering Studio designing enterprise-grade intelligent systems with rigor, integrity, and a deep respect for the systems they touch.",
-  url: "https://jekrami-labs.com",
+  url: "https://jekrami.ir",
   locale: "en-US",
-  ogImage: "/og.png",
-  email: "jafar@ekrami.info",
+  email: "ekrami@gmail.com",
   links: {
-    linkedin: "https://www.linkedin.com/company/jekrami-labs",
-    github: "https://github.com/jekrami-labs",
+    linkedin: "https://www.linkedin.com/in/jafar-ekrami",
+    github: "https://github.com/jekrami",
   },
   author: {
-    name: "JEKRAMI Labs",
+    name: "Jafar Ekrami",
     role: "Founder & Principal Engineer",
   },
+  resumeUrl: "/jafar-ekrami-resume.pdf",
+  resumeUrlFa: "/jafar-ekrami-resume-fa.pdf",
 } as const;
 
 /** Navigation entries, single source of truth for header + footer + sitemap. */

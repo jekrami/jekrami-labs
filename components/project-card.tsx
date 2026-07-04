@@ -1,14 +1,11 @@
+"use client";
+
 import type { Project } from "@/lib/projects";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { InlineLink } from "@/components/ui/inline-link";
 import { FadeIn } from "@/components/motion/fade-in";
-
-const statusLabel: Record<Project["status"], string> = {
-  shipped: "Shipped",
-  "in-development": "In Development",
-  "in-research": "In Research",
-};
+import { useDictionary } from "@/components/locale-provider";
 
 const statusTone: Record<Project["status"], "neutral" | "accent" | "primary"> = {
   shipped: "accent",
@@ -18,15 +15,14 @@ const statusTone: Record<Project["status"], "neutral" | "accent" | "primary"> = 
 
 /**
  * Project card. Image slot is deliberately abstract — a quiet diagram
- * rendered in CSS rather than a stock product screenshot.
+ * rendered in CSS rather than a stock product screenshot. Copy resolves
+ * through the locale dictionary's per-slug overrides; the project name
+ * itself is a proper noun and stays as authored.
  */
-export function ProjectCard({
-  project,
-  index = 0,
-}: {
-  project: Project;
-  index?: number;
-}) {
+export function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
+  const dict = useDictionary();
+  const copy = dict.projectOverrides[project.slug];
+
   return (
     <FadeIn delay={index * 0.05} y={16}>
       <Card interactive className="flex h-full flex-col">
@@ -34,8 +30,10 @@ export function ProjectCard({
 
         <div className="mt-8 flex flex-1 flex-col">
           <div className="flex items-center justify-between gap-3">
-            <p className="eyebrow">{project.tagline}</p>
-            <Badge tone={statusTone[project.status]}>{statusLabel[project.status]}</Badge>
+            <p className="eyebrow">{copy?.tagline ?? project.tagline}</p>
+            <Badge tone={statusTone[project.status]}>
+              {dict.common.statusLabels[project.status]}
+            </Badge>
           </div>
 
           <h3 className="mt-3 text-2xl font-[var(--font-heading)] font-semibold text-[var(--color-primary)] sm:text-3xl">
@@ -43,7 +41,7 @@ export function ProjectCard({
           </h3>
 
           <p className="mt-3 max-w-prose text-pretty text-[var(--color-muted-foreground)]">
-            {project.summary}
+            {copy?.summary ?? project.summary}
           </p>
 
           <ul className="mt-6 flex flex-wrap gap-1.5">
@@ -55,9 +53,7 @@ export function ProjectCard({
           </ul>
 
           <div className="mt-8">
-            <InlineLink href={`/projects/${project.slug}`}>
-              Read more
-            </InlineLink>
+            <InlineLink href={`/projects/${project.slug}`}>{dict.common.readMore}</InlineLink>
           </div>
         </div>
       </Card>
@@ -96,20 +92,94 @@ function LegalVisual() {
   return (
     <VisualFrame>
       {/* Document stack */}
-      <rect x="86" y="40" width="220" height="180" rx="10" fill="#ffffff" stroke="#0B2545" strokeOpacity="0.18" />
-      <rect x="102" y="56" width="190" height="160" rx="8" fill="#ffffff" stroke="#0B2545" strokeOpacity="0.18" />
-      <rect x="118" y="72" width="160" height="130" rx="6" fill="#F6F7F9" stroke="#0B2545" strokeOpacity="0.18" />
-      <line x1="130" y1="92" x2="266" y2="92" stroke="#0B2545" strokeOpacity="0.5" strokeWidth="1.2" />
-      <line x1="130" y1="110" x2="240" y2="110" stroke="#0B2545" strokeOpacity="0.25" strokeWidth="1" />
-      <line x1="130" y1="124" x2="252" y2="124" stroke="#0B2545" strokeOpacity="0.25" strokeWidth="1" />
-      <line x1="130" y1="138" x2="220" y2="138" stroke="#0B2545" strokeOpacity="0.25" strokeWidth="1" />
+      <rect
+        x="86"
+        y="40"
+        width="220"
+        height="180"
+        rx="10"
+        fill="#ffffff"
+        stroke="#0B2545"
+        strokeOpacity="0.18"
+      />
+      <rect
+        x="102"
+        y="56"
+        width="190"
+        height="160"
+        rx="8"
+        fill="#ffffff"
+        stroke="#0B2545"
+        strokeOpacity="0.18"
+      />
+      <rect
+        x="118"
+        y="72"
+        width="160"
+        height="130"
+        rx="6"
+        fill="#F6F7F9"
+        stroke="#0B2545"
+        strokeOpacity="0.18"
+      />
+      <line
+        x1="130"
+        y1="92"
+        x2="266"
+        y2="92"
+        stroke="#0B2545"
+        strokeOpacity="0.5"
+        strokeWidth="1.2"
+      />
+      <line
+        x1="130"
+        y1="110"
+        x2="240"
+        y2="110"
+        stroke="#0B2545"
+        strokeOpacity="0.25"
+        strokeWidth="1"
+      />
+      <line
+        x1="130"
+        y1="124"
+        x2="252"
+        y2="124"
+        stroke="#0B2545"
+        strokeOpacity="0.25"
+        strokeWidth="1"
+      />
+      <line
+        x1="130"
+        y1="138"
+        x2="220"
+        y2="138"
+        stroke="#0B2545"
+        strokeOpacity="0.25"
+        strokeWidth="1"
+      />
       {/* Highlighted clause */}
       <rect x="126" y="148" width="148" height="14" rx="3" fill="#0077B6" fillOpacity="0.18" />
       <line x1="130" y1="155" x2="270" y2="155" stroke="#0077B6" strokeWidth="1.3" />
-      <line x1="130" y1="175" x2="246" y2="175" stroke="#0B2545" strokeOpacity="0.25" strokeWidth="1" />
+      <line
+        x1="130"
+        y1="175"
+        x2="246"
+        y2="175"
+        stroke="#0B2545"
+        strokeOpacity="0.25"
+        strokeWidth="1"
+      />
       {/* Citation pull */}
       <circle cx="380" cy="86" r="22" fill="#0077B6" />
-      <path d="M372 92l5 5 11-11" stroke="#ffffff" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M372 92l5 5 11-11"
+        stroke="#ffffff"
+        strokeWidth="2.4"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </VisualFrame>
   );
 }
@@ -137,11 +207,44 @@ function SocVisual() {
       </g>
       {/* Active alert */}
       <g>
-        <rect x="282" y="174" width="116" height="56" rx="8" fill="#ffffff" stroke="#0077B6" strokeOpacity="0.4" />
+        <rect
+          x="282"
+          y="174"
+          width="116"
+          height="56"
+          rx="8"
+          fill="#ffffff"
+          stroke="#0077B6"
+          strokeOpacity="0.4"
+        />
         <circle cx="296" cy="188" r="3" fill="#0077B6" />
-        <line x1="306" y1="188" x2="380" y2="188" stroke="#0B2545" strokeOpacity="0.4" strokeWidth="1" />
-        <line x1="296" y1="202" x2="360" y2="202" stroke="#0B2545" strokeOpacity="0.2" strokeWidth="1" />
-        <line x1="296" y1="216" x2="344" y2="216" stroke="#0B2545" strokeOpacity="0.2" strokeWidth="1" />
+        <line
+          x1="306"
+          y1="188"
+          x2="380"
+          y2="188"
+          stroke="#0B2545"
+          strokeOpacity="0.4"
+          strokeWidth="1"
+        />
+        <line
+          x1="296"
+          y1="202"
+          x2="360"
+          y2="202"
+          stroke="#0B2545"
+          strokeOpacity="0.2"
+          strokeWidth="1"
+        />
+        <line
+          x1="296"
+          y1="216"
+          x2="344"
+          y2="216"
+          stroke="#0B2545"
+          strokeOpacity="0.2"
+          strokeWidth="1"
+        />
       </g>
     </VisualFrame>
   );

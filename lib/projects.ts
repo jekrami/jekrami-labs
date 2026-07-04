@@ -32,14 +32,7 @@ export const projects: readonly Project[] = [
     description:
       "Ravin ingests multilingual contract repositories, normalises them against the firm's review playbook, and exposes a citation-grounded question-answering surface for legal operations. Every answer can be traced back to the exact clause it came from — a property we treat as non-negotiable for legal-grade systems.",
     status: "in-development",
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "Python",
-      "pgvector",
-      "LangGraph",
-      "Azure OpenAI",
-    ],
+    technologies: ["Next.js", "TypeScript", "Python", "pgvector", "LangGraph", "Azure OpenAI"],
     domains: ["Legal", "Enterprise AI", "RAG"],
     year: 2026,
   },
@@ -52,13 +45,7 @@ export const projects: readonly Project[] = [
     description:
       "AO-SOC is a security operations co-pilot. It ingests SIEM and EDR telemetry, clusters related alerts into incidents, drafts an investigation timeline, and writes a structured incident summary ready for the on-call engineer. We design it as a transparent system: every action it suggests is explainable, every conclusion is auditable.",
     status: "in-research",
-    technologies: [
-      "Python",
-      "FastAPI",
-      "PostgreSQL",
-      "OpenTelemetry",
-      "Agentic Workflows",
-    ],
+    technologies: ["Python", "FastAPI", "PostgreSQL", "OpenTelemetry", "Agentic Workflows"],
     domains: ["Cybersecurity", "Agentic AI", "Enterprise AI"],
     year: 2026,
   },
@@ -84,14 +71,7 @@ export const projects: readonly Project[] = [
     description:
       "The Forensic Intelligence Engine processes documents, images, spreadsheets, and multimedia at scale — extracting entities, metadata, and visual signals across dozens of formats. Configurable filtering, duplicate detection, and multilingual OCR let investigators concentrate on pattern and relationship analysis rather than file triage.",
     status: "in-development",
-    technologies: [
-      "Python",
-      "FastAPI",
-      "Computer Vision",
-      "OCR",
-      "Multimodal AI",
-      "PostgreSQL",
-    ],
+    technologies: ["Python", "FastAPI", "Computer Vision", "OCR", "Multimodal AI", "PostgreSQL"],
     domains: ["Digital Forensics", "Enterprise AI", "Financial Crime"],
     year: 2026,
   },
@@ -104,14 +84,7 @@ export const projects: readonly Project[] = [
     description:
       "This platform is built as an extensible legal AI ecosystem that runs entirely on customer infrastructure — not a single-purpose contract analyzer. The core engine handles document understanding, generation, comparison, and lifecycle management once; knowledge packs plug in without architectural changes. The first pack targets Iranian Oil & Gas contracts and regulations, with banking, insurance, construction, labor law, and procurement planned on the same foundation.",
     status: "in-development",
-    technologies: [
-      "Python",
-      "FastAPI",
-      "PostgreSQL",
-      "pgvector",
-      "LangGraph",
-      "On-Premise LLM",
-    ],
+    technologies: ["Python", "FastAPI", "PostgreSQL", "pgvector", "LangGraph", "On-Premise LLM"],
     domains: ["Legal", "Enterprise AI", "Oil & Gas"],
     year: 2026,
   },

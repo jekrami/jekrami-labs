@@ -14,7 +14,6 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
-    mdxRs: false,
   },
   // Production headers — keep things fast and secure.
   async headers() {

@@ -19,14 +19,22 @@ import {
  */
 export function PaletteSwitcher() {
   const [open, setOpen] = React.useState(false);
-  const [active, setActive] = React.useState<PaletteId>(defaultPalette);
+  // Lazy initializer instead of a post-mount effect: the no-flash script has
+  // already stamped data-palette on <html> before hydration, and the closed
+  // menu renders identically for every palette, so no mismatch is possible.
+  const [active, setActive] = React.useState<PaletteId>(() => {
+    if (typeof document === "undefined") return defaultPalette;
+    const current = document.documentElement.getAttribute("data-palette");
+    return isPaletteId(current) ? current : defaultPalette;
+  });
   const containerRef = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
 
+  // Re-assert the attribute after hydration: React 19 reconciles root-element
+  // attributes and strips what the no-flash script stamped on <html>.
   React.useEffect(() => {
-    const current = document.documentElement.getAttribute("data-palette");
-    if (isPaletteId(current)) setActive(current);
-  }, []);
+    document.documentElement.setAttribute("data-palette", active);
+  }, [active]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -81,7 +89,7 @@ export function PaletteSwitcher() {
           aria-label="Colour palette"
           className="absolute right-0 z-50 mt-2 w-64 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-1.5 shadow-[var(--shadow-elevated)]"
         >
-          <p className="px-3 pb-1.5 pt-2 text-xs font-medium uppercase tracking-[0.08em] text-[var(--color-muted-foreground)]">
+          <p className="px-3 pt-2 pb-1.5 text-xs font-medium tracking-[0.08em] text-[var(--color-muted-foreground)] uppercase">
             Colour palette
           </p>
           {palettes.map((palette) => {
@@ -95,9 +103,7 @@ export function PaletteSwitcher() {
                 onClick={() => select(palette.id)}
                 className={cn(
                   "flex w-full items-center gap-3 rounded-[var(--radius-sm)] px-3 py-2 text-left transition-colors",
-                  selected
-                    ? "bg-[var(--color-muted)]"
-                    : "hover:bg-[var(--color-muted)]",
+                  selected ? "bg-[var(--color-muted)]" : "hover:bg-[var(--color-muted)]",
                 )}
               >
                 <span
@@ -121,10 +127,7 @@ export function PaletteSwitcher() {
                   </span>
                 </span>
                 {selected ? (
-                  <Check
-                    className="size-4 shrink-0 text-[var(--color-accent)]"
-                    aria-hidden
-                  />
+                  <Check className="size-4 shrink-0 text-[var(--color-accent)]" aria-hidden />
                 ) : null}
               </button>
             );

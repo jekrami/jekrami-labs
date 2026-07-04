@@ -12,7 +12,8 @@ interface InlineLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElem
 }
 
 type LinkComponent = React.ForwardRefExoticComponent<
-  React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string; prefetch?: boolean }
+  React.AnchorHTMLAttributes<HTMLAnchorElement> &
+    React.RefAttributes<HTMLAnchorElement> & { href: string; prefetch?: boolean }
 >;
 
 /**
@@ -27,34 +28,38 @@ const NextLink = Link as unknown as LinkComponent;
 /**
  * Inline "read more" anchor with a hover-shift arrow.
  */
-export const InlineLink = React.forwardRef<HTMLAnchorElement, InlineLinkProps>(
-  function InlineLink({ className, children, href, internal = true, ...props }, ref) {
-    const classNames = cn(
-      "group inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-accent)] transition-colors hover:text-[var(--color-primary)]",
-      className,
-    );
+export const InlineLink = React.forwardRef<HTMLAnchorElement, InlineLinkProps>(function InlineLink(
+  { className, children, href, internal = true, ...props },
+  ref,
+) {
+  const classNames = cn(
+    "group inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-accent)] transition-colors hover:text-[var(--color-primary)]",
+    className,
+  );
 
-    const content = (
-      <>
-        {children}
-        <ArrowUpRight
-          className="size-3.5 transition-transform duration-200 ease-[var(--ease-subtle)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-          aria-hidden
-        />
-      </>
-    );
+  const content = (
+    <>
+      {children}
+      <ArrowUpRight
+        className="size-3.5 transition-transform duration-200 ease-[var(--ease-subtle)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+        aria-hidden
+      />
+    </>
+  );
 
-    if (internal) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return <NextLink ref={ref as any} href={href} className={classNames} {...(props as any)}>{content}</NextLink>;
-    }
-
+  if (internal) {
     return (
-      <a ref={ref} href={href} className={classNames} {...props}>
+      <NextLink ref={ref} href={href} className={classNames} {...props}>
         {content}
-      </a>
+      </NextLink>
     );
-  },
-);
+  }
+
+  return (
+    <a ref={ref} href={href} className={classNames} {...props}>
+      {content}
+    </a>
+  );
+});
 
 InlineLink.displayName = "InlineLink";

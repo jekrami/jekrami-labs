@@ -23,20 +23,18 @@ export function PageHeader({
   return (
     <header
       className={cn(
-        "border-b border-[var(--color-border)] pb-16 pt-20 sm:pt-28 lg:pt-32",
+        "border-b border-[var(--color-border)] pt-20 pb-16 sm:pt-28 lg:pt-32",
         align === "center" && "text-center",
         className,
       )}
     >
       <div className="mx-auto w-full max-w-[76rem] px-6 sm:px-8 lg:px-12">
         {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
-        <h1 className="display-1 mt-4 max-w-4xl text-balance">
-          {title}
-        </h1>
+        <h1 className="display-1 mt-4 max-w-4xl text-balance">{title}</h1>
         {description ? (
           <p
             className={cn(
-              "mt-6 max-w-2xl text-lg text-[var(--color-muted-foreground)] text-pretty sm:text-xl",
+              "mt-6 max-w-2xl text-lg text-pretty text-[var(--color-muted-foreground)] sm:text-xl",
               align === "center" && "mx-auto",
             )}
           >

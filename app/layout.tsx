@@ -1,15 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { Inter, Manrope, Vazirmatn } from "next/font/google";
 
 import { site } from "@/lib/site";
 import { paletteNoFlashScript } from "@/lib/palettes";
+import { localeNoFlashScript } from "@/lib/i18n";
+import { structuredData } from "@/lib/structured-data";
+import { LocaleProvider } from "@/components/locale-provider";
 import { Navigation } from "@/components/layout/navigation";
 import { Footer } from "@/components/layout/footer";
+import { CommandPalette } from "@/components/command-palette";
 import "./globals.css";
 
 /**
  * Self-hosted fonts via next/font — keeps Lighthouse performance high
  * because the woff2 binaries ship with the build, no third-party CDN.
+ * Vazirmatn carries the Farsi locale (body + headings).
  */
 const inter = Inter({
   subsets: ["latin"],
@@ -21,6 +26,12 @@ const manrope = Manrope({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-manrope",
+});
+
+const vazirmatn = Vazirmatn({
+  subsets: ["arabic", "latin"],
+  display: "swap",
+  variable: "--font-vazirmatn",
 });
 
 export const metadata: Metadata = {
@@ -71,9 +82,7 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-    ],
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
 };
 
@@ -92,26 +101,39 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${manrope.variable}`}
+      className={`${inter.variable} ${manrope.variable} ${vazirmatn.variable}`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: paletteNoFlashScript() }} />
+        <script dangerouslySetInnerHTML={{ __html: localeNoFlashScript() }} />
         <script
-          dangerouslySetInnerHTML={{ __html: paletteNoFlashScript() }}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData()) }}
+        />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`${site.name} — Articles`}
+          href="/articles/rss.xml"
         />
       </head>
       <body className="bg-[var(--color-background)] text-[var(--color-foreground)] antialiased">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[60] focus:rounded-md focus:bg-[var(--color-primary)] focus:px-4 focus:py-2 focus:text-sm focus:text-[var(--color-primary-foreground)]"
-        >
-          Skip to main content
-        </a>
-        <Navigation />
-        <main id="main" className="min-h-[60vh]">
-          {children}
-        </main>
-        <Footer />
+        <LocaleProvider>
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-md focus:bg-[var(--color-primary)] focus:px-4 focus:py-2 focus:text-sm focus:text-[var(--color-primary-foreground)]"
+          >
+            Skip to main content
+          </a>
+          <Navigation />
+          <main id="main" className="min-h-[60vh]">
+            {children}
+          </main>
+          <Footer />
+          <CommandPalette />
+        </LocaleProvider>
       </body>
     </html>
   );

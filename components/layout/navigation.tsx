@@ -3,13 +3,28 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 import { navigation, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { PaletteSwitcher } from "@/components/palette-switcher";
+import { LanguageToggle } from "@/components/language-toggle";
+import { useDictionary } from "@/components/locale-provider";
+import { Magnetic } from "@/components/motion/magnetic";
+
+/** Maps navigation hrefs to their dictionary keys so labels localize. */
+const navKeyByHref = {
+  "/": "home",
+  "/projects": "projects",
+  "/research": "research",
+  "/about": "about",
+  "/articles": "articles",
+  "/contact": "contact",
+} as const;
+
+type NavHref = keyof typeof navKeyByHref;
 
 /**
  * Top navigation. Styling reacts to scroll position by adding a soft
@@ -19,8 +34,12 @@ import { PaletteSwitcher } from "@/components/palette-switcher";
 export function Navigation() {
   const pathname = usePathname();
   const reduced = useReducedMotion();
+  const dict = useDictionary();
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+
+  const label = (href: string, fallback: string) =>
+    href in navKeyByHref ? dict.nav[navKeyByHref[href as NavHref]] : fallback;
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -29,9 +48,14 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  React.useEffect(() => {
+  // Close the mobile sheet on navigation — adjusted during render (the
+  // React-recommended "derive state from props" pattern) rather than in an
+  // effect, so the closed state paints in the same pass as the new route.
+  const [prevPathname, setPrevPathname] = React.useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
 
   React.useEffect(() => {
     if (!open) return;
@@ -59,13 +83,10 @@ export function Navigation() {
             aria-label={`${site.name} — Home`}
           >
             <LogoMark className="size-7" />
-            <span className="font-[var(--font-heading)] text-base">{site.shortName}</span>
+            <span className="text-base font-[var(--font-heading)]">{site.shortName}</span>
           </Link>
 
-          <nav
-            aria-label="Primary"
-            className="hidden items-center gap-1 md:flex"
-          >
+          <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
             {navigation.map((item) => {
               const active = isActive(pathname, item.href);
               return (
@@ -80,21 +101,35 @@ export function Navigation() {
                   )}
                   aria-current={active ? "page" : undefined}
                 >
-                  {item.label}
+                  {label(item.href, item.label)}
                 </Link>
               );
             })}
           </nav>
 
           <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              aria-label={dict.nav.openCommandMenu}
+              onClick={() =>
+                document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }))
+              }
+              className="hidden h-10 items-center gap-1.5 rounded-full border border-[var(--color-border)] px-3 text-xs font-medium text-[var(--color-muted-foreground)] transition-colors hover:bg-[var(--color-muted)] hover:text-[var(--color-primary)] sm:inline-flex"
+            >
+              <Search className="size-3.5" aria-hidden />
+              <kbd className="font-sans">⌘K</kbd>
+            </button>
+            <LanguageToggle />
             <PaletteSwitcher />
 
-            <Link
-              href="/contact"
-              className="hidden rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm font-medium text-[var(--color-primary-foreground)] transition-colors hover:bg-[var(--color-primary-hover)] md:inline-flex"
-            >
-              Get in touch
-            </Link>
+            <Magnetic className="hidden md:inline-flex" strength={0.2}>
+              <Link
+                href="/contact"
+                className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm font-medium text-[var(--color-primary-foreground)] transition-colors hover:bg-[var(--color-primary-hover)]"
+              >
+                {dict.nav.getInTouch}
+              </Link>
+            </Magnetic>
 
             <button
               type="button"
@@ -120,10 +155,7 @@ export function Navigation() {
             className="fixed inset-x-0 top-16 z-40 origin-top bg-[var(--color-surface)] md:hidden"
             style={{ height: "calc(100dvh - 4rem)" }}
           >
-            <nav
-              aria-label="Mobile"
-              className="flex h-full flex-col gap-1 px-6 py-8"
-            >
+            <nav aria-label="Mobile" className="flex h-full flex-col gap-1 px-6 py-8">
               {navigation.map((item, idx) => {
                 const active = isActive(pathname, item.href);
                 return (
@@ -147,7 +179,7 @@ export function Navigation() {
                       )}
                       aria-current={active ? "page" : undefined}
                     >
-                      {item.label}
+                      {label(item.href, item.label)}
                     </Link>
                   </motion.div>
                 );
@@ -157,7 +189,7 @@ export function Navigation() {
                   href="/contact"
                   className="block rounded-full bg-[var(--color-primary)] px-6 py-4 text-center text-base font-medium text-[var(--color-primary-foreground)]"
                 >
-                  Get in touch
+                  {dict.nav.getInTouch}
                 </Link>
               </div>
             </nav>

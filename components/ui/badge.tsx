@@ -27,8 +27,7 @@ const badgeVariants = cva(
 );
 
 export interface BadgeProps
-  extends React.HTMLAttributes<HTMLSpanElement>,
-    VariantProps<typeof badgeVariants> {}
+  extends React.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof badgeVariants> {}
 
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, tone, ...props }, ref) => (

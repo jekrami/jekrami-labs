@@ -43,14 +43,14 @@ async function readArticleFile(slug: string): Promise<Article> {
   // Validate the frontmatter shape so the rest of the app can rely on it.
   const title = typeof data.title === "string" ? data.title : slug;
   const summary = typeof data.summary === "string" ? data.summary : "";
-  const dateString = data.date instanceof Date
-    ? data.date.toISOString().slice(0, 10)
-    : typeof data.date === "string"
-      ? data.date
-      : "";
-  const readingTime = typeof data.readingTime === "number"
-    ? data.readingTime
-    : estimateReadingTime(content);
+  const dateString =
+    data.date instanceof Date
+      ? data.date.toISOString().slice(0, 10)
+      : typeof data.date === "string"
+        ? data.date
+        : "";
+  const readingTime =
+    typeof data.readingTime === "number" ? data.readingTime : estimateReadingTime(content);
   const tags = Array.isArray(data.tags)
     ? data.tags.filter((t): t is string => typeof t === "string")
     : [];

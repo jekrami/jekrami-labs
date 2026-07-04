@@ -59,7 +59,7 @@ function articleComponents(): MDXComponents {
   return {
     h1: (props) => (
       <h1
-        className="mt-0 font-[var(--font-heading)] text-3xl font-semibold text-[var(--color-primary)] sm:text-4xl"
+        className="mt-0 text-3xl font-[var(--font-heading)] font-semibold text-[var(--color-primary)] sm:text-4xl"
         {...props}
       />
     ),
@@ -92,7 +92,7 @@ export default async function ArticlePage({ params }: PageProps) {
         </div>
       </Container>
 
-      <article className="pb-24 pt-16 sm:pb-32 sm:pt-20">
+      <article className="pt-16 pb-24 sm:pt-20 sm:pb-32">
         <Container>
           <div className="mx-auto max-w-3xl">
             <SlideIn>
@@ -102,7 +102,7 @@ export default async function ArticlePage({ params }: PageProps) {
               <h1 className="display-1 mt-6 text-balance">{article.title}</h1>
             </SlideIn>
             <FadeIn delay={0.15}>
-              <p className="mt-8 text-xl leading-relaxed text-[var(--color-muted-foreground)] text-pretty">
+              <p className="mt-8 text-xl leading-relaxed text-pretty text-[var(--color-muted-foreground)]">
                 {article.summary}
               </p>
             </FadeIn>
@@ -111,7 +111,7 @@ export default async function ArticlePage({ params }: PageProps) {
                 {article.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[0.68rem] font-medium uppercase tracking-[0.08em] text-[var(--color-muted-foreground)]"
+                    className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[0.68rem] font-medium tracking-[0.08em] text-[var(--color-muted-foreground)] uppercase"
                   >
                     {tag}
                   </span>

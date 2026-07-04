@@ -1,103 +1,177 @@
+"use client";
+
+import * as React from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { ArrowRight } from "lucide-react";
 
+import { gsap } from "@/lib/gsap";
+import { useGSAP } from "@gsap/react";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
-import { FadeIn } from "@/components/motion/fade-in";
-import { SlideIn } from "@/components/motion/slide-in";
-import { Parallax } from "@/components/motion/parallax";
+import { Magnetic } from "@/components/motion/magnetic";
+import { useDictionary } from "@/components/locale-provider";
+
+const HeroScene = dynamic(() => import("@/components/three/hero-scene"), {
+  ssr: false,
+});
 
 /**
  * Hero — the homepage introduction. Composition:
  *  - Eyebrow chip
- *  - Display headline ("Engineering Trustworthy AI Systems")
- *  - Subline with structured topic chips
- *  - Quiet CTA row
- *  - Background plate that subtly parallaxes on scroll
+ *  - Display headline, revealed word by word on load
+ *  - Subline, CTA row, topic chips
+ *  - A three.js "system map" behind everything: a stable lattice with
+ *    telemetry pulses. The 2D hairline grid beneath it doubles as the
+ *    no-WebGL fallback.
+ * The intro is one orchestrated GSAP timeline; scrolling out of the hero
+ * scrubs the scene away. Both collapse under prefers-reduced-motion.
  */
 export function Hero() {
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const dict = useDictionary();
+
+  useGSAP(
+    () => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion) return;
+
+      const timeline = gsap.timeline({
+        defaults: { ease: "power3.out" },
+      });
+      timeline
+        .from("[data-hero-eyebrow]", { y: 10, autoAlpha: 0, duration: 0.6 })
+        .from(
+          "[data-hero-word]",
+          { yPercent: 60, autoAlpha: 0, duration: 0.9, stagger: 0.09 },
+          0.15,
+        )
+        .from("[data-hero-subline]", { y: 14, autoAlpha: 0, duration: 0.7 }, 0.7)
+        .from("[data-hero-cta]", { y: 12, autoAlpha: 0, duration: 0.6 }, 0.9)
+        .from("[data-hero-chip]", { y: 8, autoAlpha: 0, duration: 0.5, stagger: 0.07 }, 1.05);
+
+      // Scrub the scene and content apart as the hero leaves the viewport.
+      gsap.to("[data-hero-backdrop]", {
+        yPercent: 18,
+        autoAlpha: 0.15,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+      gsap.to("[data-hero-content]", {
+        yPercent: -6,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    },
+    { scope: sectionRef },
+  );
+
   return (
-    <section className="relative overflow-hidden">
-      {/* Subtle backing layer — no gradients, no glow, just a faint hairline grid. */}
-      <Parallax
-        offset={20}
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-      >
+    <section ref={sectionRef} className="relative overflow-hidden">
+      <div data-hero-backdrop aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        {/* Base layer: the hairline grid. Doubles as the no-WebGL fallback. */}
         <div
           className="absolute inset-0 opacity-[0.5]"
           style={{
             backgroundImage:
-              "linear-gradient(to right, rgba(11, 37, 69, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(11, 37, 69, 0.04) 1px, transparent 1px)",
+              "linear-gradient(to right, color-mix(in oklch, var(--color-primary) 5%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklch, var(--color-primary) 5%, transparent) 1px, transparent 1px)",
             backgroundSize: "64px 64px",
-            maskImage:
-              "radial-gradient(circle at 50% 30%, black 0%, black 30%, transparent 70%)",
+            maskImage: "radial-gradient(circle at 50% 30%, black 0%, black 30%, transparent 70%)",
             WebkitMaskImage:
               "radial-gradient(circle at 50% 30%, black 0%, black 30%, transparent 70%)",
           }}
         />
-      </Parallax>
+        {/* The system map. Masked so it dissolves quietly at the edges. */}
+        <div
+          className="absolute inset-0"
+          style={{
+            maskImage:
+              "radial-gradient(ellipse 90% 70% at 50% 45%, black 0%, black 45%, transparent 85%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 90% 70% at 50% 45%, black 0%, black 45%, transparent 85%)",
+          }}
+        >
+          <HeroScene className="absolute inset-0" />
+        </div>
+      </div>
 
       <Container>
-        <div className="flex min-h-[78dvh] flex-col justify-center py-32 sm:py-40 lg:py-48">
-          <FadeIn>
+        <div
+          data-hero-content
+          className="flex min-h-[78dvh] flex-col justify-center py-32 sm:py-40 lg:py-48"
+        >
+          <div data-hero-eyebrow>
             <span className="eyebrow inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]/70 px-3 py-1.5 backdrop-blur">
               <span className="relative flex size-1.5">
                 <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-accent)] opacity-75" />
                 <span className="relative inline-flex size-1.5 rounded-full bg-[var(--color-accent)]" />
               </span>
-              Now researching enterprise AI
+              {dict.hero.eyebrow}
             </span>
-          </FadeIn>
+          </div>
 
-          <SlideIn delay={0.05} y={16}>
-            <h1 className="display-1 mt-8 max-w-4xl text-balance">
-              Engineering Trustworthy AI Systems.
-            </h1>
-          </SlideIn>
+          <h1 className="display-1 mt-8 max-w-4xl text-balance">
+            {dict.hero.words.map((word) => (
+              <React.Fragment key={word}>
+                <span className="-mb-[0.08em] inline-block overflow-hidden pb-[0.08em] align-top">
+                  <span data-hero-word className="inline-block">
+                    {word}
+                  </span>
+                </span>{" "}
+              </React.Fragment>
+            ))}
+          </h1>
 
-          <SlideIn delay={0.15} y={12}>
-            <p className="mt-8 max-w-2xl text-lg text-[var(--color-muted-foreground)] sm:text-xl">
-              JEKRAMI Labs is an independent AI Research &amp; Engineering Studio.
-              We design intelligent systems for enterprises that are serious
-              about{" "}
-              <span className="text-[var(--color-primary)]">uptime</span>,{" "}
-              <span className="text-[var(--color-primary)]">auditability</span>,
-              and{" "}
-              <span className="text-[var(--color-primary)]">outcomes</span>.
-            </p>
-          </SlideIn>
+          <p
+            data-hero-subline
+            className="mt-8 max-w-2xl text-lg text-[var(--color-muted-foreground)] sm:text-xl"
+          >
+            {dict.hero.subline.map((segment, idx) =>
+              segment.highlight ? (
+                <span key={idx} className="text-[var(--color-primary)]">
+                  {segment.text}
+                </span>
+              ) : (
+                <React.Fragment key={idx}>{segment.text}</React.Fragment>
+              ),
+            )}
+          </p>
 
-          <FadeIn delay={0.25}>
-            <div className="mt-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+          <div
+            data-hero-cta
+            className="mt-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center"
+          >
+            <Magnetic>
               <Button asChild size="lg" variant="primary">
                 <Link href="/projects">
-                  Explore Projects
+                  {dict.hero.exploreProjects}
                   <ArrowRight className="size-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link href="/research">Read the research</Link>
-              </Button>
-            </div>
-          </FadeIn>
+            </Magnetic>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/research">{dict.hero.readResearch}</Link>
+            </Button>
+          </div>
 
-          <FadeIn delay={0.35}>
-            <ul className="mt-16 flex flex-wrap gap-x-8 gap-y-3 text-sm text-[var(--color-muted-foreground)]">
-              <li className="flex items-center gap-2">
+          <ul className="mt-16 flex flex-wrap gap-x-8 gap-y-3 text-sm text-[var(--color-muted-foreground)]">
+            {dict.hero.chips.map((topic) => (
+              <li key={topic} data-hero-chip className="flex items-center gap-2">
                 <span className="size-1 rounded-full bg-[var(--color-accent)]" />
-                Enterprise AI
+                {topic}
               </li>
-              <li className="flex items-center gap-2">
-                <span className="size-1 rounded-full bg-[var(--color-accent)]" />
-                Cybersecurity
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="size-1 rounded-full bg-[var(--color-accent)]" />
-                Intelligent Systems
-              </li>
-            </ul>
-          </FadeIn>
+            ))}
+          </ul>
         </div>
       </Container>
     </section>

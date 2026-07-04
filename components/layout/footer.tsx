@@ -1,38 +1,64 @@
+"use client";
+
 import Link from "next/link";
-import { Linkedin, Github, Mail } from "lucide-react";
+import { Linkedin, Github, Mail, FileDown } from "lucide-react";
 
 import { navigation, site } from "@/lib/site";
 import { Container } from "@/components/ui/container";
+import { useLocale } from "@/components/locale-provider";
 
-const socialLinks = [
-  { href: site.email ? `mailto:${site.email}` : "#", label: "Email", icon: Mail },
-  { href: site.links.linkedin, label: "LinkedIn", icon: Linkedin },
-  { href: site.links.github, label: "GitHub", icon: Github },
-] as const;
+const navKeyByHref = {
+  "/": "home",
+  "/projects": "projects",
+  "/research": "research",
+  "/about": "about",
+  "/articles": "articles",
+  "/contact": "contact",
+} as const;
 
 export function Footer() {
+  const { locale, dict } = useLocale();
   const year = new Date().getFullYear();
+  const resumeUrl = locale === "fa" ? site.resumeUrlFa : site.resumeUrl;
+
+  const socialLinks = [
+    {
+      href: `mailto:${site.email}`,
+      label: dict.contactSection.channelLabels.email,
+      icon: Mail,
+    },
+    {
+      href: site.links.linkedin,
+      label: dict.contactSection.channelLabels.linkedin,
+      icon: Linkedin,
+    },
+    {
+      href: site.links.github,
+      label: dict.contactSection.channelLabels.github,
+      icon: Github,
+    },
+    { href: resumeUrl, label: dict.common.downloadCV, icon: FileDown, download: true },
+  ];
 
   return (
     <footer className="border-t border-[var(--color-border)] bg-[var(--color-muted)]/40">
       <Container>
         <div className="grid gap-12 py-16 md:grid-cols-[1.5fr_1fr_1fr] md:gap-16 md:py-20">
           <div className="max-w-md">
-            <p className="font-[var(--font-heading)] text-base font-semibold text-[var(--color-primary)]">
+            <p className="text-base font-[var(--font-heading)] font-semibold text-[var(--color-primary)]">
               {site.name}
             </p>
             <p className="mt-3 text-sm text-[var(--color-muted-foreground)]">
-              {site.tagline}.
+              {dict.footer.tagline}.
             </p>
             <p className="mt-6 text-sm text-[var(--color-muted-foreground)]">
-              An independent AI Research &amp; Engineering Studio. Built quietly,
-              documented carefully, designed for the audit.
+              {dict.footer.description}
             </p>
           </div>
 
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.08em] text-[var(--color-muted-foreground)]">
-              Studio
+            <p className="text-xs font-medium tracking-[0.08em] text-[var(--color-muted-foreground)] uppercase">
+              {dict.footer.studio}
             </p>
             <ul className="mt-4 space-y-2.5">
               {navigation.map((item) => (
@@ -41,7 +67,9 @@ export function Footer() {
                     href={item.href}
                     className="text-sm text-[var(--color-primary)] transition-colors hover:text-[var(--color-accent)]"
                   >
-                    {item.label}
+                    {item.href in navKeyByHref
+                      ? dict.nav[navKeyByHref[item.href as keyof typeof navKeyByHref]]
+                      : item.label}
                   </Link>
                 </li>
               ))}
@@ -49,16 +77,17 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.08em] text-[var(--color-muted-foreground)]">
-              Connect
+            <p className="text-xs font-medium tracking-[0.08em] text-[var(--color-muted-foreground)] uppercase">
+              {dict.footer.connect}
             </p>
             <ul className="mt-4 space-y-2.5">
-              {socialLinks.map(({ href, label, icon: Icon }) => (
+              {socialLinks.map(({ href, label, icon: Icon, download }) => (
                 <li key={label}>
                   <a
                     href={href}
                     className="inline-flex items-center gap-2 text-sm text-[var(--color-primary)] transition-colors hover:text-[var(--color-accent)]"
                     rel="noreferrer"
+                    download={download ? true : undefined}
                   >
                     <Icon className="size-3.5" aria-hidden />
                     {label}
@@ -71,9 +100,10 @@ export function Footer() {
 
         <div className="flex flex-col items-start justify-between gap-4 border-t border-[var(--color-border)] py-8 text-xs text-[var(--color-muted-foreground)] sm:flex-row sm:items-center">
           <p>
-            &copy; {year} {site.name}. All rights reserved.
+            &copy; {year} {site.name}. {dict.footer.rights} {dict.footer.foundedBy}{" "}
+            {dict.footer.founderName}.
           </p>
-          <p>{site.tagline}.</p>
+          <p>{dict.footer.tagline}.</p>
         </div>
       </Container>
     </footer>
