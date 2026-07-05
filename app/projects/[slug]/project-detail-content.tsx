@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 
 import type { Project } from "@/lib/projects";
@@ -67,11 +68,44 @@ export function ProjectDetailContent({ project }: { project: Project }) {
             <div className="prose-jekrami">
               <p>{copy?.description ?? project.description}</p>
 
+              {project.relatedArticle && (
+                <p>
+                  <Link href={`/articles/${project.relatedArticle}`}>
+                    Read the full research paper →
+                  </Link>
+                </p>
+              )}
+
               <h2>{t.exploringTitle}</h2>
               <p>{t.exploringBody}</p>
 
               <h2>{t.mattersTitle}</h2>
               <p>{t.mattersBody}</p>
+
+              {project.slides && project.slides.length > 0 && (
+                <>
+                  <h2>{t.slidesTitle}</h2>
+                  <div className="not-prose mt-8 space-y-10">
+                    {project.slides.map((slide) => (
+                      <figure
+                        key={slide.src}
+                        className="overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)]"
+                      >
+                        <Image
+                          src={slide.src}
+                          alt={slide.alt}
+                          width={1920}
+                          height={1080}
+                          className="h-auto w-full"
+                        />
+                        <figcaption className="border-t border-[var(--color-border)] px-6 py-4 text-sm text-[var(--color-muted-foreground)]">
+                          {slide.caption}
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             <aside className="space-y-6">

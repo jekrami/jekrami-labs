@@ -83,7 +83,7 @@ export function Navigation() {
             className="inline-flex shrink-0 items-center"
             aria-label={`${site.name} — Home`}
           >
-            <Logo priority className="h-10 md:h-11" />
+            <Logo priority className="h-12 md:h-14" />
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">

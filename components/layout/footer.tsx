@@ -47,7 +47,7 @@ export function Footer() {
         <div className="grid gap-12 py-16 md:grid-cols-[1.5fr_1fr_1fr] md:gap-16 md:py-20">
           <div className="max-w-md">
             <Link href="/" aria-label={`${site.name} — Home`}>
-              <Logo className="h-14" />
+              <Logo className="h-16" />
             </Link>
             <p className="mt-3 text-sm text-[var(--color-muted-foreground)]">
               {dict.footer.tagline}.
