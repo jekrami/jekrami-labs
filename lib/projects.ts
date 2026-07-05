@@ -1,9 +1,17 @@
+import { chaosWalkerSlides } from "@/lib/chaoswalker-slides";
+
 /**
  * Project metadata for the /projects surface and the homepage grid.
  * Detail bodies live in dedicated MDX files so the marketing copy and
  * the long-form case-study content can evolve independently.
  */
 export type ProjectStatus = "shipped" | "in-research" | "in-development";
+
+export interface ProjectSlide {
+  src: string;
+  alt: string;
+  caption: string;
+}
 
 export interface Project {
   slug: string;
@@ -18,6 +26,10 @@ export interface Project {
   domains: readonly string[];
   /** Public-facing URL, if any. */
   href?: string;
+  /** Optional presentation slides for research projects. */
+  slides?: readonly ProjectSlide[];
+  /** Related article slug, if any. */
+  relatedArticle?: string;
   /** Year of release / current milestone. */
   year: number;
 }
@@ -52,14 +64,19 @@ export const projects: readonly Project[] = [
   {
     slug: "air-to-live",
     name: "Air to Live",
-    tagline: "Passive Urban Air Purification",
+    tagline: "Passive Vortex Air Purification Tower",
     summary:
-      "A research-stage platform that turns environmental telemetry into actionable urban planning decisions.",
+      "A passive, energy-minimal tower concept that purifies city-scale volumes of air using natural-draft aerodynamics instead of mechanical fans.",
     description:
-      "Air to Live explores how distributed low-cost sensors, edge inference, and public-health data can be composed into a usable decision surface for municipal teams. The goal is not another dashboard — it is a quiet, reliable background signal that informs policy without becoming a theatre of graphs.",
+      "Air to Live adapts the hyperbolic natural-draft cooling towers used in thermal power plants to a different purpose: cleaning urban air. Polluted street-level air is drawn into a spiral vortex chamber, passed through electrostatic precipitation to strip PM2.5, PM10, and other particulates, and exhausted at altitude — driven almost entirely by the chimney effect rather than fans. The open research questions are architectural as much as environmental: what tower geometry sustains the strongest natural draft, how vortex aerodynamics affect filtration residence time, and whether the same shaft could be built into the core of a future high-rise instead of standing alone.",
     status: "in-research",
-    technologies: ["IoT", "Edge Inference", "Time-Series DB", "Grafana"],
-    domains: ["Public Sector", "Sustainability", "Edge AI"],
+    technologies: [
+      "Computational Fluid Dynamics",
+      "Natural-Draft Aerodynamics",
+      "Electrostatic Precipitation",
+      "Structural Engineering",
+    ],
+    domains: ["Public Sector", "Sustainability", "Urban Infrastructure"],
     year: 2026,
   },
   {
@@ -86,6 +103,60 @@ export const projects: readonly Project[] = [
     status: "in-development",
     technologies: ["Python", "FastAPI", "PostgreSQL", "pgvector", "LangGraph", "On-Premise LLM"],
     domains: ["Legal", "Enterprise AI", "Oil & Gas"],
+    year: 2026,
+  },
+  {
+    slug: "chaoswalker",
+    name: "ChaosWalker",
+    tagline: "Post-Exhaustion Password Search",
+    summary:
+      "A post-exhaustion architecture that explores massive password spaces through pseudorandom, non-repeating sampling rather than linear brute force.",
+    description:
+      "ChaosWalker addresses the moment when dictionary, rule, and mask attacks are exhausted and the remaining keyspace is too large to enumerate. The system divides the password domain into weighted structural partitions, uses Feistel-based permutations for pseudorandom non-repeating traversal within each partition, and combines global sampling with localised heuristic mutations filtered by a Bloom filter. Candidate generation is decoupled from verification — ChaosWalker streams candidates to GPU-optimised engines such as Hashcat through a stdin pipeline.",
+    status: "in-research",
+    technologies: ["C", "Feistel Networks", "Bloom Filters", "Hashcat", "Systems Architecture"],
+    domains: ["Cybersecurity", "Password Security", "Research"],
+    slides: chaosWalkerSlides,
+    relatedArticle: "chaoswalker-post-exhaustion-architecture",
+    year: 2026,
+  },
+  {
+    slug: "cryptotrade",
+    name: "CryptoTrade",
+    tagline: "AI-Driven Crypto Trading",
+    summary:
+      "A local-first, AI-driven crypto trading system with deterministic governance and paper trading capabilities.",
+    description:
+      "CryptoTrade runs three specialised agents — a technical analyst reading indicators and OHLCV data, a fundamental analyst tracking news and market metrics, and a decision agent that weighs their sometimes-conflicting signals into a final verdict — against local LLMs via Ollama, with no cloud dependency. Before any trade executes, a rule-based governance layer enforces portfolio limits and dynamic position sizing, and every strategy is proven first against real market data in a paper-trading wallet before it touches capital.",
+    status: "in-development",
+    technologies: ["Python", "Ollama", "LLM Agents", "ccxt", "Binance API", "Paper Trading"],
+    domains: ["Fintech", "Trading", "Agentic AI"],
+    year: 2026,
+  },
+  {
+    slug: "kingraph",
+    name: "KinGraph",
+    tagline: "Synthetic Community Knowledge Graphs",
+    summary:
+      "A toolkit for generating synthetic human community datasets with rich, temporally-consistent knowledge graph structures for graph ML and database pipelines.",
+    description:
+      "KinGraph simulates communities of thousands of people — families, marriages, schools, employers, banks, and friendships — enforcing temporal consistency so children are never born before their parents or a marriage. Each person's simulated life is rendered as a natural-language biography, which an LLM pipeline then converts back into structured subject-relation-object triples, ready to load into Neo4j or feed graph machine learning pipelines. The result is a deterministic, reproducible testbed for knowledge graph extraction and reasoning research.",
+    status: "in-research",
+    technologies: ["Python", "Ollama", "Neo4j", "Pandas", "Knowledge Graphs", "LLM Extraction"],
+    domains: ["Graph ML", "Synthetic Data", "Research"],
+    year: 2026,
+  },
+  {
+    slug: "pai-lab",
+    name: "PAI-Lab",
+    tagline: "Al Brooks Price Action Trading Engine",
+    summary:
+      "An adaptive, multi-timeframe trading engine that translates Al Brooks' discretionary price-action methodology into quantified, risk-gated execution logic.",
+    description:
+      "PAI-Lab reads market structure across four timeframes at once — 1H and 15M for context, 5M for structural signals such as second entries and wedge reversals, and 1M for precise micro-entry timing. Every candidate signal is scored against a composite pressure metric, then routed through a state machine that gates counter-trend and breakout trades until they are structurally confirmed. Before capital is committed, a Monte Carlo simulation sandbox runs a thousand-iteration synthetic backtest against the current regime, only allowing trades that clear a minimum expected value and probability of profit — with risk, targets, and position size all scaling continuously with a live trend/range probability rather than snapping between fixed modes.",
+    status: "in-development",
+    technologies: ["Python", "Pandas", "Logistic Regression", "Monte Carlo Simulation", "Binance API", "Gradio"],
+    domains: ["Fintech", "Trading", "Quantitative Research"],
     year: 2026,
   },
 ] as const;

@@ -68,6 +68,7 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
 function ProjectVisual({ slug }: { slug: string }) {
   if (slug === "ravin") return <LegalVisual />;
   if (slug === "ao-soc") return <SocVisual />;
+  if (slug === "chaoswalker") return <ChaosVisual />;
   return <AirVisual />;
 }
 
@@ -284,6 +285,42 @@ function AirVisual() {
         fill="none"
         strokeLinecap="round"
       />
+    </VisualFrame>
+  );
+}
+
+function ChaosVisual() {
+  return (
+    <VisualFrame>
+      {/* Keyspace grid with traversal path */}
+      <g stroke="#0B2545" strokeOpacity="0.15" strokeWidth="1">
+        {Array.from({ length: 9 }).map((_, i) => (
+          <line key={`h-${i}`} x1="60" y1={40 + i * 24} x2="420" y2={40 + i * 24} />
+        ))}
+        {Array.from({ length: 16 }).map((_, i) => (
+          <line key={`v-${i}`} x1={60 + i * 24} y1="40" x2={60 + i * 24} y2="232" />
+        ))}
+      </g>
+      {/* Pseudorandom traversal path */}
+      <path
+        d="M72 200 L120 88 L168 176 L216 64 L264 152 L312 96 L360 184 L408 120"
+        stroke="#0077B6"
+        strokeWidth="2.2"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      {/* Partition blocks */}
+      <rect x="88" y="48" width="72" height="48" rx="6" fill="#0077B6" fillOpacity="0.12" stroke="#0077B6" strokeOpacity="0.35" />
+      <rect x="200" y="120" width="88" height="56" rx="6" fill="#0077B6" fillOpacity="0.08" stroke="#0B2545" strokeOpacity="0.25" />
+      <rect x="300" y="56" width="96" height="64" rx="6" fill="#0077B6" fillOpacity="0.1" stroke="#0077B6" strokeOpacity="0.3" />
+      {/* Probe points */}
+      <g>
+        <circle cx="120" cy="88" r="5" fill="#0077B6" />
+        <circle cx="216" cy="64" r="5" fill="#0077B6" />
+        <circle cx="312" cy="96" r="5" fill="#0077B6" />
+        <circle cx="408" cy="120" r="6" fill="#0B2545" />
+      </g>
     </VisualFrame>
   );
 }
