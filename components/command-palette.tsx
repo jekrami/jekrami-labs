@@ -13,6 +13,7 @@ const navKeyByHref = {
   "/": "home",
   "/projects": "projects",
   "/research": "research",
+  "/services": "services",
   "/about": "about",
   "/articles": "articles",
   "/contact": "contact",

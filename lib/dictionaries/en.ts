@@ -11,6 +11,7 @@ export const en = {
     home: "Home",
     projects: "Projects",
     research: "Research",
+    services: "Services",
     about: "About",
     articles: "Articles",
     contact: "Contact",
@@ -324,6 +325,80 @@ export const en = {
     ],
     credentialsTitle: "Credentials",
     credentialsBody: "The full professional record behind the studio, as a single document.",
+  },
+  servicesPage: {
+    header: {
+      eyebrow: "Services",
+      title: "Work with the studio.",
+      description:
+        "Three decades of enterprise judgment, applied to your AI problem. Engagements are small, scoped in writing, and end with artefacts your team can act on without us.",
+    },
+    intro: [
+      "Ekrami Labs takes on a small number of engagements at a time, for organizations that need AI they can trust, maintain, and defend. Each one pairs thirty years of enterprise technology leadership with current, hands-on practice in retrieval, agentic systems, and AI governance.",
+      "You do not need another vendor selling promises. You need a senior engineer who has run enterprise infrastructure for decades and can tell you which AI claims are real, which are risks, and how to build the difference.",
+    ],
+    audienceLabel: "Who it serves",
+    services: [
+      {
+        title: "AI Readiness Assessment",
+        audience: "Executives and IT leaders under pressure to adopt AI, unsure where to begin.",
+        body: "A structured review of your data, infrastructure, team, and candidate use cases. You receive a clear, prioritized roadmap — what to build, what to buy, what to postpone — and the risks nobody has told you about.",
+        meta: "Typically 5–10 days",
+      },
+      {
+        title: "RAG & AI Architecture Review",
+        audience:
+          "Teams building — or struggling with — retrieval-augmented generation and LLM systems.",
+        body: "We review the architecture, data pipeline, retrieval quality, and evaluation approach, then deliver concrete fixes. Persian-language and domain-specific RAG is a specialty.",
+        meta: "Typically 3–5 days",
+      },
+      {
+        title: "AI Governance & Security Review",
+        audience: "Organizations in regulated or sensitive sectors deploying AI.",
+        body: "An assessment of your deployment against security, privacy, and governance requirements: prompt-injection exposure, data-leakage paths, access control, auditability, and incident readiness. Grounded in decades of real cybersecurity and forensics work — not checklists.",
+        meta: "Scoped per deployment",
+      },
+      {
+        title: "Corporate Training & Workshops",
+        audience: "Technical teams and managers who need practical AI skills, fast.",
+        body: "One- and two-day workshops, delivered in Persian or English: practical enterprise AI and RAG, AI security for enterprises, and AI for technology leaders. Custom curricula on request.",
+        meta: "1–2 days per workshop",
+      },
+      {
+        title: "Fractional AI Advisor",
+        audience: "Organizations that need senior AI leadership without a full-time hire.",
+        body: "Ongoing advisory: architecture decisions, vendor evaluation, team mentoring, and roadmap governance — a standing seat at the table without the headcount.",
+        meta: "2–6 days per month",
+      },
+    ],
+    processTitle: "How an engagement works",
+    processSteps: [
+      {
+        title: "A conversation",
+        body: "A free thirty-minute call. We listen to the problem and tell you honestly whether we can help — and say so plainly when we cannot.",
+      },
+      {
+        title: "A written proposal",
+        body: "A short document: scope, deliverables, timeline, fixed price. No surprises, no open-ended billing.",
+      },
+      {
+        title: "Delivery",
+        body: "On-site or remote. Every engagement ends with a written report your team can act on without us.",
+      },
+    ],
+    whyTitle: "Why this studio",
+    whyItems: [
+      "Three decades leading enterprise technology across healthcare, energy, telecommunications, and manufacturing.",
+      "Current, hands-on practice in RAG, agentic systems, AI governance, and domain-adaptive language models.",
+      "A cybersecurity and digital-forensics background — systems designed to be trusted and defended.",
+      "Independent on purpose. The only incentive is a solution that works for you.",
+    ],
+    cta: {
+      eyebrow: "Engagements",
+      title: "Bring us the problem.",
+      body: "Send one paragraph about what you are trying to do. Replies within one working day.",
+      button: "Start a conversation",
+    },
   },
   contactPage: {
     header: {

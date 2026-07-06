@@ -30,6 +30,7 @@ export const navigation = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
   { label: "Research", href: "/research" },
+  { label: "Services", href: "/services" },
   { label: "About", href: "/about" },
   { label: "Articles", href: "/articles" },
   { label: "Contact", href: "/contact" },
