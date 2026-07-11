@@ -18,7 +18,7 @@ export const fa: Dictionary = {
     contact: "تماس",
     getInTouch: "در تماس باشید",
     openCommandMenu: "باز کردن منوی فرمان",
-    switchLanguage: "Switch language to English",
+    switchLanguage: "تغییر زبان",
   },
   common: {
     downloadCV: "دریافت رزومه",

@@ -5,8 +5,9 @@ import * as React from "react";
 import { LOCALE_STORAGE_KEY, defaultLocale, isLocale, localeDir, type Locale } from "@/lib/i18n";
 import { en, type Dictionary } from "@/lib/dictionaries/en";
 import { fa } from "@/lib/dictionaries/fa";
+import { ar } from "@/lib/dictionaries/ar";
 
-const dictionaries: Record<Locale, Dictionary> = { en, fa };
+const dictionaries: Record<Locale, Dictionary> = { en, fa, ar };
 
 interface LocaleContextValue {
   locale: Locale;

@@ -17,7 +17,7 @@ export const en = {
     contact: "Contact",
     getInTouch: "Get in touch",
     openCommandMenu: "Open command menu",
-    switchLanguage: "تغییر زبان به فارسی",
+    switchLanguage: "Change language",
   },
   common: {
     downloadCV: "Download CV",

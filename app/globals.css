@@ -137,13 +137,15 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Farsi locale typography                                                    */
-/*  Applied when the LanguageToggle sets data-locale="fa" on <html>.           */
-/*  Vazirmatn carries both body and display roles; Arabic-script text must     */
-/*  never inherit the Latin negative tracking or uppercase treatment.          */
+/*  Farsi & Arabic locale typography                                          */
+/*  Applied when the LanguageToggle sets data-locale="fa"/"ar" on <html>.      */
+/*  Vazirmatn carries both body and display roles for both scripts; Arabic-   */
+/*  script text must never inherit the Latin negative tracking or uppercase   */
+/*  treatment.                                                                 */
 /* -------------------------------------------------------------------------- */
 
-[data-locale="fa"] body {
+[data-locale="fa"] body,
+[data-locale="ar"] body {
   font-family: var(--font-vazirmatn), var(--font-sans);
   line-height: 1.9;
 }
@@ -155,23 +157,34 @@
 [data-locale="fa"] h5,
 [data-locale="fa"] h6,
 [data-locale="fa"] .display-1,
-[data-locale="fa"] .display-2 {
+[data-locale="fa"] .display-2,
+[data-locale="ar"] h1,
+[data-locale="ar"] h2,
+[data-locale="ar"] h3,
+[data-locale="ar"] h4,
+[data-locale="ar"] h5,
+[data-locale="ar"] h6,
+[data-locale="ar"] .display-1,
+[data-locale="ar"] .display-2 {
   font-family: var(--font-vazirmatn), var(--font-heading);
   letter-spacing: 0;
   line-height: 1.35;
 }
 
-[data-locale="fa"] .display-1 {
+[data-locale="fa"] .display-1,
+[data-locale="ar"] .display-1 {
   font-size: clamp(2.25rem, 5.4vw, 4.25rem);
 }
 
-[data-locale="fa"] .eyebrow {
+[data-locale="fa"] .eyebrow,
+[data-locale="ar"] .eyebrow {
   font-family: var(--font-vazirmatn), var(--font-sans);
   letter-spacing: 0;
   text-transform: none;
 }
 
-[data-locale="fa"] .prose-jekrami {
+[data-locale="fa"] .prose-jekrami,
+[data-locale="ar"] .prose-jekrami {
   line-height: 2;
 }
 
