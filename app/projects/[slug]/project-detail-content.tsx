@@ -9,7 +9,31 @@ import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { FadeIn } from "@/components/motion/fade-in";
 import { SlideIn } from "@/components/motion/slide-in";
-import { useDictionary } from "@/components/locale-provider";
+import { useDictionary, useLocale } from "@/components/locale-provider";
+
+/**
+ * Descriptions are plain strings (shared type across locales), but may encode
+ * "## " headings and "- " bullet lists as paragraphs separated by blank lines.
+ * Plain single-paragraph descriptions render unchanged as a single <p>.
+ */
+function renderDescription(text: string) {
+  return text.split("\n\n").map((block, i) => {
+    if (block.startsWith("## ")) {
+      return <h3 key={i}>{block.slice(3)}</h3>;
+    }
+    const lines = block.split("\n").filter(Boolean);
+    if (lines.length > 1 && lines.every((line) => line.startsWith("- "))) {
+      return (
+        <ul key={i}>
+          {lines.map((line, j) => (
+            <li key={j}>{line.slice(2)}</li>
+          ))}
+        </ul>
+      );
+    }
+    return <p key={i}>{block}</p>;
+  });
+}
 
 /**
  * Project detail body — client so every string resolves through the
@@ -18,9 +42,12 @@ import { useDictionary } from "@/components/locale-provider";
  */
 export function ProjectDetailContent({ project }: { project: Project }) {
   const dict = useDictionary();
+  const { locale } = useLocale();
   const t = dict.projectDetail;
   const copy = dict.projectOverrides[project.slug];
   const statusLabel = dict.common.statusLabels[project.status];
+  const hideExploringAndMatters =
+    ["ao-soc", "ravin", "air-to-live"].includes(project.slug) && locale === "fa";
 
   return (
     <Container>
@@ -66,7 +93,7 @@ export function ProjectDetailContent({ project }: { project: Project }) {
         <FadeIn delay={0.25}>
           <div className="mt-20 grid gap-12 lg:grid-cols-[2fr_1fr]">
             <div className="prose-jekrami">
-              <p>{copy?.description ?? project.description}</p>
+              {renderDescription(copy?.description ?? project.description)}
 
               {project.relatedArticle && (
                 <p>
@@ -76,11 +103,15 @@ export function ProjectDetailContent({ project }: { project: Project }) {
                 </p>
               )}
 
-              <h2>{t.exploringTitle}</h2>
-              <p>{t.exploringBody}</p>
+              {!hideExploringAndMatters && (
+                <>
+                  <h2>{t.exploringTitle}</h2>
+                  <p>{t.exploringBody}</p>
 
-              <h2>{t.mattersTitle}</h2>
-              <p>{t.mattersBody}</p>
+                  <h2>{t.mattersTitle}</h2>
+                  <p>{t.mattersBody}</p>
+                </>
+              )}
 
               {project.slides && project.slides.length > 0 && (
                 <>
