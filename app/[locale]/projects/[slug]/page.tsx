@@ -2,14 +2,17 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { projects, getProject } from "@/lib/projects";
+import { routedLocales } from "@/lib/i18n";
 import { ProjectDetailContent } from "./project-detail-content";
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return routedLocales.flatMap((locale) =>
+    projects.map((project) => ({ locale, slug: project.slug })),
+  );
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

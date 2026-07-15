@@ -1,15 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Manrope, Vazirmatn } from "next/font/google";
+import { notFound } from "next/navigation";
 
 import { site } from "@/lib/site";
 import { paletteNoFlashScript } from "@/lib/palettes";
-import { localeNoFlashScript } from "@/lib/i18n";
+import { routedLocales, localeDir, isRoutedLocale, type RoutedLocale } from "@/lib/i18n";
 import { structuredData } from "@/lib/structured-data";
 import { LocaleProvider } from "@/components/locale-provider";
 import { Navigation } from "@/components/layout/navigation";
 import { Footer } from "@/components/layout/footer";
 import { CommandPalette } from "@/components/command-palette";
-import "./globals.css";
+import "../globals.css";
 
 /**
  * Self-hosted fonts via next/font — keeps Lighthouse performance high
@@ -34,6 +35,10 @@ const vazirmatn = Vazirmatn({
   variable: "--font-vazirmatn",
 });
 
+export function generateStaticParams() {
+  return routedLocales.map((locale) => ({ locale }));
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
@@ -54,13 +59,8 @@ export const metadata: Metadata = {
     "Ekrami Labs",
   ],
   category: "technology",
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: site.url,
     siteName: site.name,
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
@@ -94,21 +94,26 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function RootLayout({ children, params }: RootLayoutProps) {
+  const { locale } = await params;
+  if (!isRoutedLocale(locale)) notFound();
+  const routedLocale: RoutedLocale = locale;
+
   return (
     <html
-      lang="en"
+      lang={routedLocale}
+      dir={localeDir(routedLocale)}
       className={`${inter.variable} ${manrope.variable} ${vazirmatn.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: paletteNoFlashScript() }} />
-        <script dangerouslySetInnerHTML={{ __html: localeNoFlashScript() }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData()) }}
@@ -121,7 +126,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[var(--color-background)] text-[var(--color-foreground)] antialiased">
-        <LocaleProvider>
+        <LocaleProvider locale={routedLocale}>
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-md focus:bg-[var(--color-primary)] focus:px-4 focus:py-2 focus:text-sm focus:text-[var(--color-primary-foreground)]"

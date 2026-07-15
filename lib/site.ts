@@ -25,15 +25,19 @@ export const site = {
   resumeUrlFa: "/jafar-ekrami-resume-fa.pdf",
 } as const;
 
-/** Navigation entries, single source of truth for header + footer + sitemap. */
+/**
+ * Navigation entries, single source of truth for header + footer +
+ * command palette. `key` looks up the translated label in
+ * `dict.nav[key]` — see lib/dictionaries/*.ts.
+ */
 export const navigation = [
-  { label: "Home", href: "/" },
-  { label: "Projects", href: "/projects" },
-  { label: "Research", href: "/research" },
-  { label: "Services", href: "/services" },
-  { label: "About", href: "/about" },
-  { label: "Articles", href: "/articles" },
-  { label: "Contact", href: "/contact" },
+  { key: "home", href: "/" },
+  { key: "projects", href: "/projects" },
+  { key: "research", href: "/research" },
+  { key: "services", href: "/services" },
+  { key: "about", href: "/about" },
+  { key: "articles", href: "/articles" },
+  { key: "contact", href: "/contact" },
 ] as const;
 
 export type NavigationItem = (typeof navigation)[number];

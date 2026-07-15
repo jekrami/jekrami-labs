@@ -1,6 +1,8 @@
-import Link from "next/link";
+"use client";
+
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
+import { LocaleLink as Link } from "@/components/locale-link";
 
 export default function NotFound() {
   return (

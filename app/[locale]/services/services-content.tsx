@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
-
 import { Container } from "@/components/ui/container";
 import { PageHeader } from "@/components/ui/page-header";
 import { FadeIn } from "@/components/motion/fade-in";
 import { SlideIn } from "@/components/motion/slide-in";
 import { useDictionary } from "@/components/locale-provider";
+import { LocaleLink as Link } from "@/components/locale-link";
 
 /**
  * Services page body — client so every string resolves through the active

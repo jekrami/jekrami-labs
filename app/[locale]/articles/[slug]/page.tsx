@@ -6,18 +6,26 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import type { MDXComponents } from "mdx/types";
 
 import { getArticle, listArticleSlugs } from "@/lib/articles";
+import { localeHref } from "@/lib/i18n";
 import { Container } from "@/components/ui/container";
 import { FadeIn } from "@/components/motion/fade-in";
 import { SlideIn } from "@/components/motion/slide-in";
 import { Callout } from "@/components/mdx/callout";
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }
+
+/**
+ * Articles have no Persian translations yet (see the SEO/locale-routing
+ * plan) — only "en" is a real, indexed article URL, so we don't fan out
+ * static params per locale and reject any other locale at request time.
+ */
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const slugs = await listArticleSlugs();
-  return slugs.map((slug) => ({ slug }));
+  return slugs.map((slug) => ({ locale: "en", slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -72,7 +80,7 @@ function articleComponents(): MDXComponents {
 }
 
 export default async function ArticlePage({ params }: PageProps) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const article = await getArticle(slug);
   if (!article) notFound();
 
@@ -82,7 +90,7 @@ export default async function ArticlePage({ params }: PageProps) {
         <div className="pt-12 sm:pt-16">
           <FadeIn>
             <Link
-              href="/articles"
+              href={localeHref(locale as "en", "/articles")}
               className="group inline-flex items-center gap-1.5 text-sm text-[var(--color-muted-foreground)] transition-colors hover:text-[var(--color-primary)]"
             >
               <ArrowLeft className="size-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />

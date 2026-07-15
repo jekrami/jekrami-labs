@@ -1,19 +1,32 @@
 "use client";
 
 import * as React from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { Globe, Check } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { locales, localeLabels } from "@/lib/i18n";
+import {
+  locales,
+  localeLabels,
+  isRoutedLocale,
+  swapRoutedLocaleInPath,
+  LOCALE_STORAGE_KEY,
+} from "@/lib/i18n";
 import { useLocale } from "@/components/locale-provider";
+
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
 /**
  * Language switcher — mirrors PaletteSwitcher's dropdown pattern so a third
  * (or future fourth) language never has to fight for space in a single
- * toggle button.
+ * toggle button. Picking Persian/English navigates to that locale's real
+ * URL; picking Arabic (no dedicated routes yet) swaps the dictionary in
+ * place over whichever fa/en page is currently loaded.
  */
 export function LanguageToggle() {
   const { locale, dict, setLocale } = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -41,11 +54,17 @@ export function LanguageToggle() {
 
   const select = React.useCallback(
     (next: (typeof locales)[number]) => {
-      setLocale(next);
+      if (isRoutedLocale(next)) {
+        setLocale(next); // clears any Arabic overlay so the new page renders as-navigated
+        document.cookie = `${LOCALE_STORAGE_KEY}=${next}; path=/; max-age=${COOKIE_MAX_AGE}`;
+        router.push(swapRoutedLocaleInPath(pathname, next));
+      } else {
+        setLocale(next);
+      }
       setOpen(false);
       buttonRef.current?.focus();
     },
-    [setLocale],
+    [setLocale, router, pathname],
   );
 
   return (

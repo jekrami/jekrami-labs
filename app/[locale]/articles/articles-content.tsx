@@ -4,10 +4,11 @@ import Link from "next/link";
 import { ArrowRight, Rss } from "lucide-react";
 
 import type { ArticleMeta } from "@/lib/articles";
+import { localeHref } from "@/lib/i18n";
 import { Container } from "@/components/ui/container";
 import { PageHeader } from "@/components/ui/page-header";
 import { FadeIn } from "@/components/motion/fade-in";
-import { useDictionary } from "@/components/locale-provider";
+import { useLocale } from "@/components/locale-provider";
 
 function formatDate(date: string): string {
   if (!date) return "";
@@ -28,7 +29,7 @@ function formatDate(date: string): string {
  * page.tsx stays server-side to read the article list from disk.
  */
 export function ArticlesContent({ articles }: { articles: ArticleMeta[] }) {
-  const dict = useDictionary();
+  const { dict } = useLocale();
   const t = dict.articlesPage;
 
   return (
@@ -61,7 +62,7 @@ export function ArticlesContent({ articles }: { articles: ArticleMeta[] }) {
               <FadeIn key={article.slug} delay={idx * 0.05}>
                 <li>
                   <Link
-                    href={`/articles/${article.slug}`}
+                    href={localeHref("en", `/articles/${article.slug}`)}
                     className="group grid gap-4 py-10 transition-colors hover:bg-[var(--color-muted)]/40 sm:py-12"
                   >
                     <div className="grid gap-6 sm:grid-cols-[10rem_1fr_auto] sm:items-baseline sm:gap-10">

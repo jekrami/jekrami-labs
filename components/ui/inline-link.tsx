@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { LocaleLink } from "@/components/locale-link";
 
 interface InlineLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
   href: string;
@@ -23,7 +23,7 @@ type LinkComponent = React.ForwardRefExoticComponent<
  * `as unknown as LinkComponent` lets us forward the ref while keeping the
  * public prop surface typed as a regular <a>.
  */
-const NextLink = Link as unknown as LinkComponent;
+const NextLink = LocaleLink as unknown as LinkComponent;
 
 /**
  * Inline "read more" anchor with a hover-shift arrow.

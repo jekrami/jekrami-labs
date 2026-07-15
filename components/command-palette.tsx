@@ -6,18 +6,9 @@ import { Command } from "cmdk";
 import { ArrowUpRight, FileDown, Github, Linkedin, Mail, Search } from "lucide-react";
 
 import { navigation, site } from "@/lib/site";
+import { localeHref } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { useLocale } from "@/components/locale-provider";
-
-const navKeyByHref = {
-  "/": "home",
-  "/projects": "projects",
-  "/research": "research",
-  "/services": "services",
-  "/about": "about",
-  "/articles": "articles",
-  "/contact": "contact",
-} as const;
 
 /**
  * Global keyboard-driven quick nav (Cmd/Ctrl+K). A single client island
@@ -28,7 +19,7 @@ const navKeyByHref = {
 export function CommandPalette() {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const { locale, dict } = useLocale();
+  const { locale, routedLocale, dict } = useLocale();
   const resumeUrl = locale === "fa" ? site.resumeUrlFa : site.resumeUrl;
 
   React.useEffect(() => {
@@ -101,15 +92,12 @@ export function CommandPalette() {
           className="px-1 pt-2 pb-1 text-xs font-medium tracking-[0.08em] text-[var(--color-muted-foreground)] uppercase [&_[cmdk-group-items]]:mt-1"
         >
           {navigation.map((item) => {
-            const itemLabel =
-              item.href in navKeyByHref
-                ? dict.nav[navKeyByHref[item.href as keyof typeof navKeyByHref]]
-                : item.label;
+            const itemLabel = dict.nav[item.key];
             return (
               <Command.Item
                 key={item.href}
-                value={`${item.label} ${itemLabel}`}
-                onSelect={() => go(item.href)}
+                value={itemLabel}
+                onSelect={() => go(localeHref(routedLocale, item.href))}
                 className={cn(
                   "flex cursor-pointer items-center justify-between gap-2 rounded-[var(--radius-sm)] px-3 py-2.5 text-sm tracking-normal text-[var(--color-foreground)] normal-case",
                   "data-[selected=true]:bg-[var(--color-muted)]",

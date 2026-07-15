@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import dynamic from "next/dynamic";
 import { ArrowRight } from "lucide-react";
 
@@ -11,6 +10,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Magnetic } from "@/components/motion/magnetic";
 import { useDictionary } from "@/components/locale-provider";
+import { LocaleLink as Link } from "@/components/locale-link";
 
 const HeroScene = dynamic(() => import("@/components/three/hero-scene"), {
   ssr: false,

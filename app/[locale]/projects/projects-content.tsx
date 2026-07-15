@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { ProjectCard } from "@/components/project-card";
 import { FadeIn } from "@/components/motion/fade-in";
 import { useDictionary } from "@/components/locale-provider";
+import { LocaleLink as Link } from "@/components/locale-link";
 
 /**
  * Projects index body — client so every string resolves through the
@@ -38,12 +39,12 @@ export function ProjectsContent() {
               {t.engagements.body}
             </p>
             <div className="mt-10">
-              <a
+              <Link
                 href="/contact"
                 className="inline-flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-6 py-3 text-sm font-medium text-[var(--color-primary-foreground)] transition-colors hover:bg-[var(--color-primary-hover)]"
               >
                 {t.engagements.cta}
-              </a>
+              </Link>
             </div>
           </div>
         </FadeIn>

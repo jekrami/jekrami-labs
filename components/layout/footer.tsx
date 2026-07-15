@@ -1,22 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { Linkedin, Github, Mail, FileDown } from "lucide-react";
 
 import { navigation, site } from "@/lib/site";
 import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/layout/logo";
 import { useLocale } from "@/components/locale-provider";
-
-const navKeyByHref = {
-  "/": "home",
-  "/projects": "projects",
-  "/research": "research",
-  "/services": "services",
-  "/about": "about",
-  "/articles": "articles",
-  "/contact": "contact",
-} as const;
+import { LocaleLink as Link } from "@/components/locale-link";
 
 export function Footer() {
   const { locale, dict } = useLocale();
@@ -69,9 +59,7 @@ export function Footer() {
                     href={item.href}
                     className="text-sm text-[var(--color-primary)] transition-colors hover:text-[var(--color-accent)]"
                   >
-                    {item.href in navKeyByHref
-                      ? dict.nav[navKeyByHref[item.href as keyof typeof navKeyByHref]]
-                      : item.label}
+                    {dict.nav[item.key]}
                   </Link>
                 </li>
               ))}

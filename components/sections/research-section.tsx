@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
 import { FadeIn } from "@/components/motion/fade-in";
 import { SlideIn } from "@/components/motion/slide-in";
 import { useDictionary } from "@/components/locale-provider";
+import { LocaleLink as Link } from "@/components/locale-link";
 
 /**
  * Research areas presented as a long reading list, not a tile grid.

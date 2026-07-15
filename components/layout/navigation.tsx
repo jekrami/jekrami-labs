@@ -1,32 +1,20 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Search, X } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 import { navigation, site } from "@/lib/site";
+import { localeHref } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/layout/logo";
 import { PaletteSwitcher } from "@/components/palette-switcher";
 import { LanguageToggle } from "@/components/language-toggle";
-import { useDictionary } from "@/components/locale-provider";
+import { useLocale } from "@/components/locale-provider";
+import { LocaleLink as Link } from "@/components/locale-link";
 import { Magnetic } from "@/components/motion/magnetic";
-
-/** Maps navigation hrefs to their dictionary keys so labels localize. */
-const navKeyByHref = {
-  "/": "home",
-  "/projects": "projects",
-  "/research": "research",
-  "/services": "services",
-  "/about": "about",
-  "/articles": "articles",
-  "/contact": "contact",
-} as const;
-
-type NavHref = keyof typeof navKeyByHref;
 
 /**
  * Top navigation. Styling reacts to scroll position by adding a soft
@@ -36,12 +24,9 @@ type NavHref = keyof typeof navKeyByHref;
 export function Navigation() {
   const pathname = usePathname();
   const reduced = useReducedMotion();
-  const dict = useDictionary();
+  const { dict, routedLocale } = useLocale();
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-
-  const label = (href: string, fallback: string) =>
-    href in navKeyByHref ? dict.nav[navKeyByHref[href as NavHref]] : fallback;
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -89,7 +74,7 @@ export function Navigation() {
 
           <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
             {navigation.map((item) => {
-              const active = isActive(pathname, item.href);
+              const active = isActive(pathname, localeHref(routedLocale, item.href));
               return (
                 <Link
                   key={item.href}
@@ -102,7 +87,7 @@ export function Navigation() {
                   )}
                   aria-current={active ? "page" : undefined}
                 >
-                  {label(item.href, item.label)}
+                  {dict.nav[item.key]}
                 </Link>
               );
             })}
@@ -158,7 +143,7 @@ export function Navigation() {
           >
             <nav aria-label="Mobile" className="flex h-full flex-col gap-1 px-6 py-8">
               {navigation.map((item, idx) => {
-                const active = isActive(pathname, item.href);
+                const active = isActive(pathname, localeHref(routedLocale, item.href));
                 return (
                   <motion.div
                     key={item.href}
@@ -180,7 +165,7 @@ export function Navigation() {
                       )}
                       aria-current={active ? "page" : undefined}
                     >
-                      {label(item.href, item.label)}
+                      {dict.nav[item.key]}
                     </Link>
                   </motion.div>
                 );

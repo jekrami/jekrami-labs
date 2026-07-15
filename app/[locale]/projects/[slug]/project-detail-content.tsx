@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 
@@ -10,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { FadeIn } from "@/components/motion/fade-in";
 import { SlideIn } from "@/components/motion/slide-in";
 import { useDictionary, useLocale } from "@/components/locale-provider";
+import { LocaleLink as Link } from "@/components/locale-link";
 
 /**
  * Descriptions are plain strings (shared type across locales), but may encode

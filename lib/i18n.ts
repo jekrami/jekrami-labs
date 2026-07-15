@@ -1,18 +1,22 @@
 /**
- * Locale plumbing — mirrors the palette system exactly: the chosen locale
- * is stamped on <html> (data-locale + lang + dir) by a no-flash script
- * before first paint, persisted to localStorage, and switched at runtime
- * by the LanguageToggle through LocaleProvider.
- *
- * English is the default and remains the prerendered (SEO-visible)
- * content; Farsi and Arabic are applied client-side after hydration.
+ * Locale plumbing. Persian and English are real, URL-routed locales
+ * (`/fa/...`, `/en/...`) rendered server-side — see middleware.ts and
+ * app/[locale]/layout.tsx. Arabic is a lighter, client-only overlay: it
+ * has full dictionary content but no dedicated routes, so it is applied
+ * in the browser after mount via LocaleProvider, the same way every
+ * locale used to work before the URL-routing migration.
  */
 export const LOCALE_STORAGE_KEY = "jekrami-locale";
 
-export const locales = ["en", "fa", "ar"] as const;
+export const locales = ["fa", "en", "ar"] as const;
 export type Locale = (typeof locales)[number];
 
-export const defaultLocale: Locale = "en";
+/** Locales that get real, statically-generated, indexable URLs. */
+export const routedLocales = ["fa", "en"] as const;
+export type RoutedLocale = (typeof routedLocales)[number];
+
+/** Persian is the primary target market. */
+export const defaultLocale: RoutedLocale = "fa";
 
 /** Native display name for each locale, used by the language switcher. */
 export const localeLabels: Record<Locale, string> = {
@@ -27,17 +31,32 @@ export function isLocale(value: unknown): value is Locale {
   return typeof value === "string" && (locales as readonly string[]).includes(value);
 }
 
+export function isRoutedLocale(value: unknown): value is RoutedLocale {
+  return typeof value === "string" && (routedLocales as readonly string[]).includes(value);
+}
+
 export function localeDir(locale: Locale): "ltr" | "rtl" {
   return rtlLocales.includes(locale) ? "rtl" : "ltr";
 }
 
+/** Builds an absolute, locale-prefixed path, e.g. localeHref("fa", "/projects") -> "/fa/projects". */
+export function localeHref(locale: RoutedLocale, path: string): string {
+  const normalized = path === "/" ? "" : path;
+  return `/${locale}${normalized}`;
+}
+
 /**
- * Inline, dependency-free script injected before paint so a returning
- * Farsi or Arabic reader never sees an English flash. Kept tiny and
- * wrapped in try/catch so a disabled localStorage can never break the page.
+ * Swaps the locale segment of a pathname when the user picks a different
+ * routed locale from the language switcher. Article detail pages only
+ * exist under "en" (no Persian article translations yet), so switching
+ * away from "en" while reading one lands on the localized articles list
+ * instead of a nonexistent translated article URL.
  */
-export function localeNoFlashScript(): string {
-  const validLocales = JSON.stringify(locales);
-  const rtl = JSON.stringify(rtlLocales);
-  return `(function(){try{var k=${JSON.stringify(LOCALE_STORAGE_KEY)};var locales=${validLocales};var rtl=${rtl};var v=localStorage.getItem(k);if(locales.indexOf(v)===-1){v="en";}var d=document.documentElement;d.setAttribute("data-locale",v);d.setAttribute("lang",v);d.setAttribute("dir",rtl.indexOf(v)!==-1?"rtl":"ltr");}catch(e){var d=document.documentElement;d.setAttribute("data-locale","en");d.setAttribute("lang","en");d.setAttribute("dir","ltr");}})();`;
+export function swapRoutedLocaleInPath(pathname: string, next: RoutedLocale): string {
+  const segments = pathname.split("/").filter(Boolean);
+  const rest = segments.slice(1);
+  if (rest[0] === "articles" && rest.length > 1 && next !== "en") {
+    return localeHref(next, "/articles");
+  }
+  return localeHref(next, rest.length ? `/${rest.join("/")}` : "/");
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
@@ -8,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/motion/fade-in";
 import { SlideIn } from "@/components/motion/slide-in";
 import { useDictionary } from "@/components/locale-provider";
+import { LocaleLink as Link } from "@/components/locale-link";
 
 /**
  * About — the engineering story, told as a story (not a CV).

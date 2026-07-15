@@ -14,6 +14,9 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
+    // Required because the root layout lives under the [locale] dynamic
+    // segment — see https://nextjs.org/docs/app/api-reference/file-conventions/not-found
+    globalNotFound: true,
   },
   // Production headers — keep things fast and secure.
   async headers() {
